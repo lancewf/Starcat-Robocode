@@ -22,7 +22,7 @@ import org.starcat.codelets.SlipnetNodeActivationRecipient;
  */
 public class Slipnet extends Component {
 	// --------------------------------------------------------------------------
-	// #region Private Static Data
+	// Private Static Data
 	// --------------------------------------------------------------------------
 
 	private static String DEF_OBJ_NAME = "Item";
@@ -39,25 +39,20 @@ public class Slipnet extends Component {
 
 	private static int DEF_NUM_POST = 0;
 
-	// #endregion
-
 	// --------------------------------------------------------------------------
-	// #region Protected Data
+	// Protected Data
 	// --------------------------------------------------------------------------
 
 	// An array of key-value pairs; keys are conceptnames
 	// and values are associated nodes
-	protected HashMap<String, SlipnetNode> slipnodeStore;
-
-	// #endregion
+	protected HashMap<String, SlipnetNode> slipnodeStore 
+		= new HashMap<String, SlipnetNode>();
 
 	// --------------------------------------------------------------------------
-	// #region Constructor
+	//  Constructor
 	// --------------------------------------------------------------------------
 
 	public Slipnet() {
-		slipnodeStore = new HashMap<String, SlipnetNode>();
-
 		// createIdentityNode
 		SlipnetNode node = new SlipnetNode(DEF_IDENT_NAME, DEF_CON, DEF_ACT,
 				DEF_THRESH, DEF_NUM_POST);
@@ -75,7 +70,7 @@ public class Slipnet extends Component {
 	}
 
 	// --------------------------------------------------------------------------
-	// #region Component Members
+	// Component Members
 	// --------------------------------------------------------------------------
 
 	public void executeCodelet(Codelet codelet) {
@@ -109,11 +104,9 @@ public class Slipnet extends Component {
 			node.update();
 		}
 	}
-
-	// #endregion
-
+	
 	// --------------------------------------------------------------------------
-	// #region Local Public Members
+	// Local Public Members
 	// --------------------------------------------------------------------------
 
 	/**
@@ -214,6 +207,4 @@ public class Slipnet extends Component {
 					recipient.getAmountToAdd());
 		}
 	}
-
-	// #endregion
 }

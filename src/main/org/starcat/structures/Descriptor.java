@@ -33,31 +33,22 @@ implements StarcatObject
 	protected String name;
 	protected Object value;
 	protected Item object;
-	
 	protected PublicStarcatObject sObjDelegate = 
 		new PublicStarcatObject(this);
 	
 	public Descriptor(SlipnetNode type, SlipnetNode value)
 	{
-		setDescriptorType(type);
-		setDescriptorValue(value);
-		//why the different style here?
-		name = null;
-		value = null;
+		this.descriptorType = type;
+		this.descriptorValue = value;
 	}
 
 	public Descriptor(String name, Object value)
 	{
-		setDescriptorType(null);
-		setDescriptorValue(null);
-		//why the different style here?
 		this.name = name;
 		this.value = value;
 	}
-	
-	
-	/*
-	 * 
+
+	/**
 	 * true if the two objects reference are the 
 	 * same (identity) or their respective DescriptionType 
 	 * and Descriptor objects are equal
@@ -97,7 +88,6 @@ implements StarcatObject
 	{
 		return descriptorType.isActive();
 	}
-	
 	
 	public SlipnetNode getDescriptorType() {
 		return descriptorType;

@@ -12,10 +12,6 @@ package org.starcat.core;
 public interface MetabolismPulse 
             extends Keyable, Runnable
 {
-	/**
-	 * provide some activity to the corresponding <code>Metabolism</code> 
-	 *
-	 */
 	public void run();
 	public void start();
 	public void stop();		

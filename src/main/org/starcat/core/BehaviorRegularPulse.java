@@ -16,32 +16,32 @@ public class BehaviorRegularPulse extends RegularPulse
 
    public boolean isAdaptiveExecute()
    {
-      return ParameterData.getBehaviorAdaptiveExecute(component);
+      return ParameterData.getBehaviorAdaptiveExecute(getComponent());
    }
 
    public int getExecuteFactor()
    {
-      return ParameterData.getBehaviorExecuteFactor(component);
+      return ParameterData.getBehaviorExecuteFactor(getComponent());
    }
 
    public double getReductionFactor()
    {
-      return ParameterData.getBehaviorReductionFactor(component);
+      return ParameterData.getBehaviorReductionFactor(getComponent());
    }
 
    public boolean isSleeper()
    {
-      return ParameterData.getBehaviorSleeper(component);
+      return ParameterData.getBehaviorSleeper(getComponent());
    }
 
    public long getSleepTime()
    {
-      return ParameterData.getBehaviorSleepTime(component);
+      return ParameterData.getBehaviorSleepTime(getComponent());
    }
 
    public void setExecuteFactor(int execFactor)
    {
-      ParameterData.setBehaviorExecuteFactor(component, execFactor);
+      ParameterData.setBehaviorExecuteFactor(getComponent(), execFactor);
    }
 
    public void processAlgorithm()
@@ -49,7 +49,7 @@ public class BehaviorRegularPulse extends RegularPulse
       // This will take codelets from the buffer (the number is determined
       // by slipnet exec factor) and executes those codelets in the
       // slipnet
-      if (Slipnet.class.isAssignableFrom(component.getClass()))
+      if (Slipnet.class.isAssignableFrom(getComponent().getClass()))
       {
          while (!checkIfDoneProcessing())
          {
@@ -59,7 +59,7 @@ public class BehaviorRegularPulse extends RegularPulse
             }
          }
       }
-      else if (Workspace.class.isAssignableFrom(component.getClass()))
+      else if (Workspace.class.isAssignableFrom(getComponent().getClass()))
       {
          while (!checkIfDoneProcessing())
          {
@@ -69,12 +69,12 @@ public class BehaviorRegularPulse extends RegularPulse
             }
          }
       }
-      else if (Coderack.class.isAssignableFrom(component.getClass()))
+      else if (Coderack.class.isAssignableFrom(getComponent().getClass()))
       {
          // this is different for coderack and we want to flush the
          // coderack buffer and pop a number of codelets based on the
          // coderack execuation factor
-         Coderack tempComponent = (Coderack) component;
+         Coderack tempComponent = (Coderack) getComponent();
 
          while (this.hasMoreCodeletsToProcess())
          {

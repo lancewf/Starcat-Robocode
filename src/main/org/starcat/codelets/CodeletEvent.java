@@ -11,48 +11,39 @@ import org.starcat.codelets.Codelet;
  * include when a codelet is popped. The essentials of the event are the codelet
  * that is to be interpreted by listeners.
  */
-public class CodeletEvent extends EventObject implements StarcatObject
-{
-   // --------------------------------------------------------------------------
-   // #region Private Data
-   // --------------------------------------------------------------------------
+public class CodeletEvent extends EventObject implements StarcatObject {
+	// --------------------------------------------------------------------------
+	// Private Data
+	// --------------------------------------------------------------------------
 
-   /**
-	 * 
-	 */
 	private static final long serialVersionUID = 4738449642050896175L;
 
-private PublicStarcatObject sObjDelegate = new PublicStarcatObject(this);
+	private PublicStarcatObject sObjDelegate = new PublicStarcatObject(this);
 
-   private Codelet codelet;
+	private Codelet codelet;
 
-   // #endregion
+	// --------------------------------------------------------------------------
+	// Constructor
+	// --------------------------------------------------------------------------
 
-   // --------------------------------------------------------------------------
-   // #region Constructor
-   // --------------------------------------------------------------------------
+	public CodeletEvent(Object source, Codelet codelet) {
+		super(source);
+		this.codelet = codelet;
+	}
 
-   public CodeletEvent(Object source, Codelet codelet)
-   {
-      super(source);
-      this.codelet = codelet;
-   }
+	// --------------------------------------------------------------------------
+	// Public Members
+	// --------------------------------------------------------------------------
 
-   // #endregion
+	public Codelet getCodelet() {
+		return codelet;
+	}
 
-   // --------------------------------------------------------------------------
-   // #region Public Members
-   // --------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
+	// StarcatObject Members
+	// --------------------------------------------------------------------------
 
-   public Codelet getCodelet()
-   {
-      return codelet;
-   }
-
-   public Object getId()
-   {
-      return sObjDelegate.getId();
-   }
-
-   // #endregion
+	public Object getId() {
+		return sObjDelegate.getId();
+	}
 }

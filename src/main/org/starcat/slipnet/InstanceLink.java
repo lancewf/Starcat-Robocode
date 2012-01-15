@@ -2,19 +2,9 @@ package org.starcat.slipnet;
 
 /**
  * Implementation of an instance link as described in Copycat.
- * 
  */
 public class InstanceLink extends Link
 {
-// -----------------------------------------------------------------------------
-// #region Constructor
-// -----------------------------------------------------------------------------
-   
-   public InstanceLink()
-   {
-      super();
-   }
-
    public InstanceLink(String name, int intrinsicLength, SlipnetNode from,
          SlipnetNode to)
    {
@@ -25,6 +15,4 @@ public class InstanceLink extends Link
    {
       this("", intrinsicLength, from, to);
    }
-// #endregion
-
 }

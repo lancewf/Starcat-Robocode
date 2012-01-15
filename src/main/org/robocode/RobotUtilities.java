@@ -1,131 +1,131 @@
 package org.robocode;
 
-public class RobotUtilities
-{
-   // --------------------------------------------------------------------------
-   // #region Public Static Members
-   // --------------------------------------------------------------------------
+import java.util.List;
+import java.util.Random;
 
-   public static double findDistanceToWall(BotCatable robot,
-                                           double degreesFromCurrentClockwise)
-   {
-      double heading = 0;
-      double x = 0;
-      double y = 0;
-      double battleFieldWidth = 0;
-      double battleFieldHeight = 0;
-      try
-      {
-         x = robot.getX();
-         y = robot.getY();
-         heading = robot.getHeading();
-         battleFieldWidth = robot.getBattleFieldWidth();
-         battleFieldHeight = robot.getBattleFieldHeight();
-      }
-      catch (Exception ex)
-      {
-         robot.toString();
-      }
+public class RobotUtilities {
+	// -------------------------------------------------------------------------
+	// Public Static Members
+	// -------------------------------------------------------------------------
 
-      double degreesAfterTurn = turnClockwise(heading,
-         degreesFromCurrentClockwise);
+	public static double bearingToTank(Tank tank, double x1, double y1) {
+		double radians = bearingToTankRadian(tank, x1, y1);
+		return Math.toDegrees(radians);
+	}
 
-      // convert
-      // to
-      // radians
-      double absoluteBearing = Math.toRadians(degreesAfterTurn);
+	public static double distanceToTank(Tank tank, double x1, double y1) {
+		double deltaX = tank.x() - x1;
+		double deltaY = tank.y() - y1;
+		return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+	}
 
-      double distance = Double.MAX_VALUE;
+	public static double findDistanceToWall(BotCatable robot,
+			double degreesFromCurrentClockwise) {
+		double heading = robot.getHeading();
+		double x = robot.getX();
+		double y = robot.getY();
+		double battleFieldWidth = robot.getBattleFieldWidth();
+		double battleFieldHeight = robot.getBattleFieldHeight();
 
-      if (degreesAfterTurn > 0 && degreesAfterTurn < 180)
-      {
-         // Test east wall
-         // law of sin
+		double degreesAfterTurn = turnClockwise(heading,
+				degreesFromCurrentClockwise);
 
-         double nintyDegreesDistanceFromEastWall = battleFieldWidth - x;
+		// convert to radians
+		double absoluteBearing = Math.toRadians(degreesAfterTurn);
 
-         distance = (nintyDegreesDistanceFromEastWall)
-               / (Math.sin(absoluteBearing));
-      }
-      if (degreesAfterTurn > 90 && degreesAfterTurn < 270)
-      {
-         // Test south wall
+		double distance = Double.MAX_VALUE;
 
-         double oneEightyDegreesDistanceFromEastWall = y;
+		if (degreesAfterTurn > 0 && degreesAfterTurn < 180) {
+			// Test east wall
+			// law of sin
 
-         double tempDistance = (oneEightyDegreesDistanceFromEastWall)
-               / (Math.sin(absoluteBearing - Math.PI / 2.0));
+			double nintyDegreesDistanceFromEastWall = battleFieldWidth - x;
 
-         if (tempDistance < distance)
-         {
-            distance = tempDistance;
-         }
-      }
-      if (degreesAfterTurn > 180 && degreesAfterTurn < 359.999999)
-      {
-         // Test west wall
+			distance = (nintyDegreesDistanceFromEastWall)
+					/ (Math.sin(absoluteBearing));
+		}
+		if (degreesAfterTurn > 90 && degreesAfterTurn < 270) {
+			// Test south wall
 
-         double twoSeventyDegreesDistanceFromEastWall = x;
+			double oneEightyDegreesDistanceFromEastWall = y;
 
-         double tempDistance = Double.MAX_VALUE;
+			double tempDistance = (oneEightyDegreesDistanceFromEastWall)
+					/ (Math.sin(absoluteBearing - Math.PI / 2.0));
 
-         if (degreesAfterTurn < 270)
-         {
-            tempDistance = (twoSeventyDegreesDistanceFromEastWall)
-                  / (Math.sin(absoluteBearing - Math.PI));
-         }
-         else
-         {
-            tempDistance = (twoSeventyDegreesDistanceFromEastWall)
-                  / (Math.sin((-1.0) * absoluteBearing));
-         }
+			if (tempDistance < distance) {
+				distance = tempDistance;
+			}
+		}
+		if (degreesAfterTurn > 180 && degreesAfterTurn < 359.999999) {
+			// Test west wall
 
-         if (tempDistance < distance)
-         {
-            distance = tempDistance;
-         }
-      }
-      if ((degreesAfterTurn > 270 && degreesAfterTurn < 359.999999)
-            || (degreesAfterTurn >= 0 && degreesAfterTurn < 90))
-      {
-         // Test north wall
+			double twoSeventyDegreesDistanceFromEastWall = x;
 
-         double zeroDegreesDistanceFromNorthWall = battleFieldHeight - y;
+			double tempDistance = Double.MAX_VALUE;
 
-         double tempDistance = (zeroDegreesDistanceFromNorthWall)
-               / (Math.sin(Math.PI / 2.0 - absoluteBearing));
+			if (degreesAfterTurn < 270) {
+				tempDistance = (twoSeventyDegreesDistanceFromEastWall)
+						/ (Math.sin(absoluteBearing - Math.PI));
+			} else {
+				tempDistance = (twoSeventyDegreesDistanceFromEastWall)
+						/ (Math.sin((-1.0) * absoluteBearing));
+			}
 
-         if (tempDistance < distance)
-         {
-            distance = tempDistance;
-         }
-      }
+			if (tempDistance < distance) {
+				distance = tempDistance;
+			}
+		}
+		if ((degreesAfterTurn > 270 && degreesAfterTurn < 359.999999)
+				|| (degreesAfterTurn >= 0 && degreesAfterTurn < 90)) {
+			// Test north wall
 
-      return distance;
-   }
+			double zeroDegreesDistanceFromNorthWall = battleFieldHeight - y;
+
+			double tempDistance = (zeroDegreesDistanceFromNorthWall)
+					/ (Math.sin(Math.PI / 2.0 - absoluteBearing));
+
+			if (tempDistance < distance) {
+				distance = tempDistance;
+			}
+		}
+
+		return distance;
+	}
+	
+	public static double findDistanceToOtherTanks(double directionLooking,
+			BotCatable robot, Random random) {
+		double modifiedHeadingToLook = directionLooking;
+
+		int amountToAdd = random.nextInt(30);
+
+		if (random.nextBoolean()) {
+			modifiedHeadingToLook += amountToAdd;
+		} else {
+			modifiedHeadingToLook -= amountToAdd;
+		}
+
+		double distance = RobotUtilities.findDistanceOpponets(robot,
+				modifiedHeadingToLook);
+
+		return distance;
+	}
 
 	public static double findDistanceOpponets(BotCatable robot,
 			double degreesFromCurrentClockwise) {
 		double distance = Double.MAX_VALUE;
 
-		double heading = 0;
-		double x = 0;
-		double y = 0;
-		try {
-			x = robot.getX();
-			y = robot.getY();
-			heading = robot.getHeading();
-		} catch (Exception ex) {
-			robot.toString();
-		}
+		double heading = robot.getHeading();
+		double x = robot.getX();
+		double y = robot.getY();
 
 		double degreesAfterTurn = turnClockwise(heading,
 				degreesFromCurrentClockwise);
 
-		for (Tank tank : robot.getTanks()) {
-			double angleToTank = tank.bearingToTank(x, y);
+		List<Tank> tanks = robot.getTanks();
+		for (Tank tank : tanks) {
+			double angleToTank = bearingToTank(tank, x, y);
 
-			double tempDistance = tank.distanceToTank(x, y);
+			double tempDistance = distanceToTank(tank, x, y);
 
 			double tankWidth = 50;
 			double tankHalfWidth = tankWidth / 2.0;
@@ -144,61 +144,39 @@ public class RobotUtilities
 		return distance;
 	}
 
-   public static Position getProposedLocation(BotCatable robot,
-                                              double degreesFromCurrentClockwise,
-                                              double distance)
-   {
-      double degreesAfterTurn = turnClockwise(robot.getHeading(),
-         degreesFromCurrentClockwise);
+	// -------------------------------------------------------------------------
+	// Private Members
+	// -------------------------------------------------------------------------
 
-      // convert
-      // to
-      // radians
-      double absoluteBearing = Math.toRadians(degreesAfterTurn);
+	private static double bearingToTankRadian(Tank tank, double x1, double y1) {
+		double deltaX = tank.x() - x1;
+		double deltaY = tank.y() - y1;
+		double distanceAway = distanceToTank(tank, x1, y1);
+		if (deltaX == 0)
+			return 0;
 
-      double proposedX = robot.getX() + Math.sin(absoluteBearing) * distance;
-      double proposedY = robot.getY() + Math.cos(absoluteBearing) * distance;
+		if (deltaX > 0) {
+			if (deltaY > 0)
+				return Math.asin(deltaX / distanceAway);
+			else
+				return (Math.PI - Math.asin(deltaX / distanceAway));
+		} else { // deltaX < 0
+			if (deltaY > 0)
+				return ((2 * Math.PI) - Math.asin(-deltaX / distanceAway));
+			else
+				return Math.PI + Math.asin(-deltaX / distanceAway);
+		}
+	}
+	private static double turnClockwise(double currentDirection,
+			double degreesFromCurrentClockwise) {
+		double degreesAfterTurn = currentDirection
+				+ degreesFromCurrentClockwise;
 
-      Position position = new Position(proposedX, proposedY);
-
-      return position;
-   }
-
-   public static boolean isOutsideBattleField(Position position, BotCatable robot)
-   {
-      if (position.getX() > robot.getBattleFieldWidth() || position.getX() < 0
-            || position.getY() > robot.getBattleFieldHeight()
-            || position.getY() < 0)
-      {
-         return true;
-      }
-      else
-      {
-         return false;
-      }
-   }
-
-   // #endregion
-
-   // --------------------------------------------------------------------------
-   // #region Private Members
-   // --------------------------------------------------------------------------
-
-   private static double turnClockwise(double currentDirection,
-                                       double degreesFromCurrentClockwise)
-   {
-      double degreesAfterTurn = currentDirection + degreesFromCurrentClockwise;
-
-      if (degreesAfterTurn > 360)
-      {
-         degreesAfterTurn -= 360;
-      }
-      else if (degreesAfterTurn < 0)
-      {
-         degreesAfterTurn = 360 + degreesAfterTurn;
-      }
-      return degreesAfterTurn;
-   }
-
-   // #endregion
+		if (degreesAfterTurn > 360) {
+			degreesAfterTurn -= 360;
+		} else if (degreesAfterTurn < 0) {
+			degreesAfterTurn = 360 + degreesAfterTurn;
+		}
+		return degreesAfterTurn;
+	}
 }

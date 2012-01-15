@@ -3,11 +3,14 @@ package org.robocode
 import java.awt.Graphics2D
 import robocode._
 import java.io.File
-import org.robocode.genenticalgorithm.BotcatChromosome;
-import org.robocode.genenticalgorithm.Chromosome;
-
+import org.robocode.genenticalgorithm.BotcatChromosome
+import org.robocode.genenticalgorithm.Chromosome
 import java.awt.Color
 import scala.collection.JavaConversions._
+import java.io.OutputStream
+import java.io.FileOutputStream
+import java.util.Random
+import org.robocode.codelets._
 
 class BotCat extends AdvancedRobot with BotCatable {
 
@@ -18,6 +21,7 @@ class BotCat extends AdvancedRobot with BotCatable {
   private lazy val fireAmount = chromosome.getFireAmount()
   private lazy val forwardMovementAmount = chromosome.getMovementAmount()
   private lazy val botCatInternal = new BotCatInternal()
+  private val tankBuilder = new TankBuilder2()
 
   // ---------------------------------------------------------------------------
   // BotCatable Methods
@@ -49,11 +53,11 @@ class BotCat extends AdvancedRobot with BotCatable {
     applyGeniticFeatures()
     botCatInternal.start()
     botCatInternal ! this
-
+    
     isAlive = true
     var count: Long = 0
     while (isAlive) {
-      if (count == 10000000) {
+      if (count == 100000) {
         move()
         count = 0
       }
@@ -65,16 +69,73 @@ class BotCat extends AdvancedRobot with BotCatable {
    * onScannedRobot: What to do when you see another robot
    */
   override def onScannedRobot(e: ScannedRobotEvent) {
-	val newTank = new Tank(e, getX(), getY(), getHeading())
+	val newTank = tankBuilder.buildTank(e, getX(), getY(), getHeading())
     botCatInternal ! newTank
   }
 
   /**
    * This method is called when another robot dies.
    */
-  override def onRobotDeath(event: RobotDeathEvent) {}
-
-  override def onPaint(g: Graphics2D) {}
+  override def onRobotDeath(event: RobotDeathEvent) {
+//	  val deadTank = tankBuilder.buildTank(event)
+//	  botCatInternal ! ("dead", deadTank)
+  }
+	private val random = new Random();
+	
+  override def onPaint(g: Graphics2D) {
+    val forward = RobotUtilities.findDistanceOpponets(this,
+        FuzzyObstacleBehaviorCodelet.FORWARD)
+    val left = RobotUtilities.findDistanceOpponets(this,
+        FuzzyObstacleBehaviorCodelet.LEFT)
+    val right = RobotUtilities.findDistanceOpponets(this,
+        FuzzyObstacleBehaviorCodelet.RIGHT)
+    val backward = RobotUtilities.findDistanceOpponets(this,
+        FuzzyObstacleBehaviorCodelet.BACKWARD)
+        
+    val forwardRight = RobotUtilities.findDistanceOpponets(this,
+        FuzzyObstacleBehaviorCodelet.FORWARD_RIGHT)
+    val backwardRight = RobotUtilities.findDistanceOpponets(this,
+        FuzzyObstacleBehaviorCodelet.BACKWARD_RIGHT)
+    val backwardLeft = RobotUtilities.findDistanceOpponets(this,
+        FuzzyObstacleBehaviorCodelet.BACKWARD_LEFT)
+    val forwardLeft = RobotUtilities.findDistanceOpponets(this,
+        FuzzyObstacleBehaviorCodelet.FORWARD_LEFT)
+        
+    var text = "Direction - "
+      
+    if (forward < 2000) {
+      text += "Forward: " + forward.round
+    }
+    if (left < 2000) {
+      text += " Left: " + left.round
+    }
+    if (right < 2000) {
+      text += " Right: " + right.round
+    }
+    if (backward < 2000) {
+      text += " Backward: " + backward.round
+    }
+    
+    if (forwardRight < 2000) {
+      text += "forwardRight: " + forwardRight.round
+    }
+    if (backwardRight < 2000) {
+      text += " backwardRight: " + backwardRight.round
+    }
+    if (backwardLeft < 2000) {
+      text += " backwardLeft: " + backwardLeft.round
+    }
+    if (forwardLeft < 2000) {
+      text += " forwardLeft: " + forwardLeft.round
+    }
+    
+    g.setColor(java.awt.Color.RED)
+    g.drawString(text, 0, 0)
+  }
+  
+  def round(value:Double):Long ={
+    value.round
+  }
 
   /**
    * This method is called when your robot collides with a wall.

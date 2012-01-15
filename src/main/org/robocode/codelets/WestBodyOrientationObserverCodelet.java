@@ -20,7 +20,7 @@ extends FuzzyBehaviorCodelet
 {
 
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
 
    public WestBodyOrientationObserverCodelet() {
@@ -33,10 +33,8 @@ extends FuzzyBehaviorCodelet
       setFailureMaximumZeroValueX(Double.MAX_VALUE);
    }
 
-   // #endregion
-
    // --------------------------------------------------------------------------
-   // #region Overridden Codelet Members
+   // Overridden Codelet Members
    // --------------------------------------------------------------------------
 
    @Override
@@ -50,6 +48,4 @@ extends FuzzyBehaviorCodelet
          setCrispValue(bearingToTarget);
       }
    }
-
-   // #endregion
 }

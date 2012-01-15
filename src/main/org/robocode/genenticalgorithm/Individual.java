@@ -11,17 +11,15 @@ import java.util.Random;
 public class Individual implements Comparable<Individual>
 {
    // --------------------------------------------------------------------------
-   // #region Private Data
+   // Private Data
    // --------------------------------------------------------------------------
    
    private Chromosome chromosome;
    private double relativeFitness;
    private double fitnessScore;
    
-   // #endregion
-
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
    
    public Individual(Chromosome chromosome)
@@ -29,10 +27,8 @@ public class Individual implements Comparable<Individual>
       this.chromosome = chromosome;
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Public Members
+   // Public Members
    // --------------------------------------------------------------------------
    
    public Individual mutate(Random random)
@@ -110,10 +106,8 @@ public class Individual implements Comparable<Individual>
       }
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Comparable<Individual> Members
+   // Comparable<Individual> Members
    // --------------------------------------------------------------------------
 
    @Override
@@ -132,6 +126,4 @@ public class Individual implements Comparable<Individual>
          return 0;
       }
    }
-   
-   // #endregion
 }

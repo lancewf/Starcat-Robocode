@@ -17,23 +17,23 @@ public class ControlRegularPulse extends RegularPulse {
 	}
 
 	public boolean isAdaptiveExecute() {
-		return ParameterData.getControlAdaptiveExecute(component);
+		return ParameterData.getControlAdaptiveExecute(getComponent());
 	}
 	public int getExecuteFactor() {
-		return ParameterData.getControlExecuteFactor(component);
+		return ParameterData.getControlExecuteFactor(getComponent());
 	}
 	public double getReductionFactor() {
-		return ParameterData.getControlReductionFactor(component);
+		return ParameterData.getControlReductionFactor(getComponent());
 	}
 	public boolean isSleeper() {
-		return ParameterData.getControlSleeper(component);
+		return ParameterData.getControlSleeper(getComponent());
 	}
 	public long getSleepTime() {
-		return ParameterData.getControlSleepTime(component);
+		return ParameterData.getControlSleepTime(getComponent());
 	}
 	
 	public void setExecuteFactor(int execFactor) {
-		ParameterData.setControlExecuteFactor(component, execFactor);
+		ParameterData.setControlExecuteFactor(getComponent(), execFactor);
 	}
 
 	public void preProcess()
@@ -42,22 +42,22 @@ public class ControlRegularPulse extends RegularPulse {
 	
 		for (int i = 0; i < executes; i++)
 		{
-			if (Slipnet.class.isAssignableFrom(component.getClass())){
+			if (Slipnet.class.isAssignableFrom(getComponent().getClass())){
 				SlipnetUpdateCodelet codelet = new SlipnetUpdateCodelet();
-				queue.push(codelet);
+				push(codelet);
 			}
-			else if (Workspace.class.isAssignableFrom(component.getClass())){
+			else if (Workspace.class.isAssignableFrom(getComponent().getClass())){
 				WorkspaceUpdateCodelet codelet = new WorkspaceUpdateCodelet();
-				queue.push(codelet);
+				push(codelet);
 			}
-			else if (Coderack.class.isAssignableFrom(component.getClass())){
+			else if (Coderack.class.isAssignableFrom(getComponent().getClass())){
 				CoderackUpdateCodelet codelet = new CoderackUpdateCodelet();
-				queue.push(codelet);
+				push(codelet);
 			}
 			else {
 			    System.out.println("Did not determine a control codelet in ControlRegularPulse");
 			}
-			beforePulse = queue.size();
 		}
+		super.preProcess();
 	}	
 }

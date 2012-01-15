@@ -16,16 +16,6 @@ import org.starcat.workspace.Workspace;
 public abstract class ControlCodelet extends Codelet implements Cloneable
 {
    // --------------------------------------------------------------------------
-   // Abstract Members
-   // --------------------------------------------------------------------------
-
-   public abstract void execute(Coderack coderack);
-
-   public abstract void execute(Slipnet slipnet);
-
-   public abstract void execute(Workspace workspace);
-
-   // --------------------------------------------------------------------------
    // Overridden Codelet Members
    // --------------------------------------------------------------------------
 

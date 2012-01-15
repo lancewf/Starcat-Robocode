@@ -10,6 +10,7 @@ import java.util.Date;
  * 
  */
 public class LifetimeComparator implements Comparator<Object> {
+	
 	// -------------------------------------------------------------------------
 	// Public Members
 	// -------------------------------------------------------------------------
@@ -38,15 +39,15 @@ public class LifetimeComparator implements Comparator<Object> {
 			death1 = ((Date) o1).getTime();
 		} else {
 			CodeletGroupPair cgp = (CodeletGroupPair) o1;
-			death1 = cgp.codelet.getTimeToDie().getTime();
-			seq1 = cgp.sequenceNumber;
+			death1 = cgp.getCodelet().getTimeToDie().getTime();
+			seq1 = cgp.getSequenceNumber();
 		}
 		if (Date.class == o2.getClass()) {
 			death2 = ((Date) o2).getTime();
 		} else {
 			CodeletGroupPair cgp = (CodeletGroupPair) o2;
-			death2 = cgp.codelet.getTimeToDie().getTime();
-			seq2 = cgp.sequenceNumber;
+			death2 = cgp.getCodelet().getTimeToDie().getTime();
+			seq2 = cgp.getSequenceNumber();
 		}
 
 		// Now do the real comparison. Death times trump sequence numbers.

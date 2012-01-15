@@ -16,12 +16,25 @@ import org.starcat.slipnet.SlipnetNode;
  * correct link type gets created to then be configured.
  */
 public class SlipnetLinkConfiguration {
+
+	// --------------------------------------------------------------------------
+	// Private Data
+	// --------------------------------------------------------------------------
+
 	private Slipnet slipnet;
 	private Link linkBeingBuilt;
 
-	public SlipnetLinkConfiguration(Slipnet slipnet){
+	// --------------------------------------------------------------------------
+	// Constructor
+	// --------------------------------------------------------------------------
+
+	public SlipnetLinkConfiguration(Slipnet slipnet) {
 		this.slipnet = slipnet;
 	}
+
+	// --------------------------------------------------------------------------
+	// Public Members
+	// --------------------------------------------------------------------------
 
 	public void setName(String name) {
 		linkBeingBuilt.setName(name);

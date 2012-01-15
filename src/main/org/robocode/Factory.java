@@ -13,17 +13,7 @@ import org.robocode.genenticalgorithm.fitnesstest.IFitnessTest;
 
 public class Factory
 {
-   // --------------------------------------------------------------------------
-   // #region Private Data
-   // --------------------------------------------------------------------------
-
    private static int INITIAL_POPULATION_SIZE = 50;
-   
-   // #endregion
-   
-   // --------------------------------------------------------------------------
-   // #region Main Method
-   // --------------------------------------------------------------------------
    
    public static void main(String[] args)
    {  
@@ -45,7 +35,7 @@ public class Factory
       
       Individual initialIndividual = new Individual(initialChromosome);
 
-      BotCatListener listener = new BotCatListener();
+      BotCatListener2 listener = new BotCatListener2();
 
       IFitnessTest test = new FitnessTest(listener);
 
@@ -55,12 +45,10 @@ public class Factory
       GenerationRunner generationRunner = new GenerationRunner(
          genenticAlgorithm);
 
-      GenenticUI ui = new GenenticUI(listener, generationRunner, test);
+      GenenticUI ui = new GenenticUI(generationRunner, test);
 
       genenticAlgorithm.setProgress(ui.getProgressBar());
 
       ui.setVisible(true);
    }
-   
-   // #endregion
 }

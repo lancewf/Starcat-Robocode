@@ -1,9 +1,5 @@
 package org.starcat.structures;
 
-
-
-
-
 /**
  * A Group is a perceptual structure that collects together
  * other perceptual structures that all share a connection to a single
@@ -21,14 +17,10 @@ package org.starcat.structures;
  */
 public abstract class Group extends Entity {
     
-    protected int groupSize;
-    protected Entity[] groupedEntities;    
+    protected int groupSize = 0;
+    protected Entity[] groupedEntities = new Entity[10];    
     
-    public Group()
-    {
-    	groupSize = 0; //Just for now to quiet compiler; must come back to this code
-    	groupedEntities = new Entity[10];
-    }
+    public Group(){ }
     
     public int size()
     {
@@ -41,17 +33,11 @@ public abstract class Group extends Entity {
     }
 
 	public int getStrength() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
     
- 
-    //TODO Do we want an iterator for this?
-	
 	public Group clone()
 	{
 		return (Group)super.clone();
 	}
-
-
 }

@@ -3,7 +3,7 @@ package org.robocode.genenticalgorithm.fitnesstest;
 import java.io.File;
 import java.util.List;
 
-import org.robocode.BotCatListener;
+import org.robocode.BotCatListener2;
 import org.robocode.genenticalgorithm.Individual;
 
 import robocode.BattleResults;
@@ -15,36 +15,31 @@ import robocode.control.RobotSpecification;
 public class FitnessTest implements IFitnessTest
 {
    // --------------------------------------------------------------------------
-   // #region Private Data
+   // Private Data
    // --------------------------------------------------------------------------
    
    public static String BOTCAT_NAME = "org.robocode.BotCat";
-   private BotCatListener listener;
+   private BotCatListener2 listener;
    private FitnessTestProperties fitnessTestProperties;
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
    
-   public FitnessTest(BotCatListener listener)
+   public FitnessTest(BotCatListener2 listener)
    {
       this.listener = listener;
       this.fitnessTestProperties = new FitnessTestProperties();
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Public Members
+   //  Public Members
    // --------------------------------------------------------------------------
-   
-   /* (non-Javadoc)
-    */
+
    public void run(Individual individual)
    {
-      individual.save(new File(fitnessTestProperties.getBotCatPropertiesPath()));
+	  File file = new File(fitnessTestProperties.getBotCatPropertiesPath());
+      individual.save(file);
 
       runBattle();
 
@@ -53,15 +48,13 @@ public class FitnessTest implements IFitnessTest
       individual.setFitnessScore(score);
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Private Members
+   // Private Members
    // --------------------------------------------------------------------------
    
    private int getScore()
    {
-	   BattleResults robotResults = listener.getRobotResults();
+	   BattleResults robotResults = listener.endResult();
       
       if(robotResults != null)
       {
@@ -87,7 +80,7 @@ public class FitnessTest implements IFitnessTest
       
       RobocodeEngine engine = getEngine();
       
-      listener.setEngine(engine);
+      listener.engine_$eq(engine);
 
       RobotSpecification[] robots = getRobots(engine, fitnessTestProperties);
 
@@ -100,14 +93,8 @@ public class FitnessTest implements IFitnessTest
 
       listener.runBattle(battle);
       
-      //engine.close();
-      
-      fitnessTestProperties.dispose();
-      
       battleField = null;
-      fitnessTestProperties = null;
       battle = null;
-      //engine = null;
       robots = null;
       
       System.gc();
@@ -140,6 +127,4 @@ public class FitnessTest implements IFitnessTest
       
       return engine.getLocalRepository(opponentsNames);
    }
-   
-   // #endregion
 }

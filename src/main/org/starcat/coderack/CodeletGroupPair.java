@@ -15,9 +15,9 @@ public class CodeletGroupPair
 	// -------------------------------------------------------------------------
     
     public static int runningSequenceNumber = 1;
-    public Codelet codelet;
-    public UrgencyGroup group;
-    public int sequenceNumber;
+    private Codelet codelet;
+    private UrgencyGroup group;
+    private int sequenceNumber;
 
     // -------------------------------------------------------------------------
     // Constructor
@@ -32,4 +32,20 @@ public class CodeletGroupPair
             this.sequenceNumber = 1;
         }
     }
+    
+    // -------------------------------------------------------------------------
+    // Public Members
+    // -------------------------------------------------------------------------
+
+	public Codelet getCodelet() {
+		return codelet;
+	}
+
+	public UrgencyGroup getGroup() {
+		return group;
+	}
+
+	public int getSequenceNumber() {
+		return sequenceNumber;
+	}
 }

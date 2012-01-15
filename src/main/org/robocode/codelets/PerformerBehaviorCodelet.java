@@ -9,15 +9,13 @@ import org.starcat.workspace.Workspace;
 public class PerformerBehaviorCodelet extends BehaviorCodelet
 {
    // --------------------------------------------------------------------------
-   // #region Private Data
+   // Private Data
    // --------------------------------------------------------------------------
    
    private RobotAction robotAction;
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
    
    public PerformerBehaviorCodelet(RobotAction robotAction)
@@ -25,10 +23,8 @@ public class PerformerBehaviorCodelet extends BehaviorCodelet
       this.robotAction = robotAction;
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Codelet Overridden Members
+   // Codelet Overridden Members
    // --------------------------------------------------------------------------
    
    @Override
@@ -43,6 +39,4 @@ public class PerformerBehaviorCodelet extends BehaviorCodelet
          robot.setMovement(robotAction);
       }
    }
-   
-   // #endregion
 }

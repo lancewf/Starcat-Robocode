@@ -11,7 +11,7 @@ import java.util.Random;
 public interface Chromosome extends Cloneable
 {
    // --------------------------------------------------------------------------
-   // #region Data
+   // Private Static data
    // --------------------------------------------------------------------------
 
    public static final String BODY_RED = "bodyRed";
@@ -42,10 +42,8 @@ public interface Chromosome extends Cloneable
    
    public static final String BUFFER_DISTANCE = "bufferDistance";
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Members
+   // Public Members
    // --------------------------------------------------------------------------
 
    int getColorValue(String colorType);
@@ -114,6 +112,4 @@ public interface Chromosome extends Cloneable
    double getWorkspaceControlReductionFactor();
 
    double getWorkspaceBehaviorReductionFactor();
-   
-   // #endregion
 }

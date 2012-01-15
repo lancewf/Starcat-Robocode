@@ -9,21 +9,18 @@ import org.starcat.slipnet.SlipnetNode;
  * configuring codelets, the <type> tag must be the first
  * tag inside the <codelet> tag.  This is so the proper 
  * codelet class can be created then populated with data.
- * 
  */
 public class CodeletConfiguration {
-	// --------------------------------------------------------------------------
-	// #region Private Data
-	// --------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Private Data
+	// -------------------------------------------------------------------------
 
 	private Slipnet slipnet;
 	private BehaviorCodelet codeletBeingConstructed;
 
-	// #endregion
-
-	// --------------------------------------------------------------------------
-	// #region Public Members
-	// --------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Public Members
+	// -------------------------------------------------------------------------
 
 	public CodeletConfiguration(Slipnet slipnet) {
 		this.slipnet = slipnet;
@@ -84,6 +81,4 @@ public class CodeletConfiguration {
 		codeletBeingConstructed.addFailureActivationRecipient(slipnetNode,
 				amountToAdd);
 	}
-
-	// #endregion
 }

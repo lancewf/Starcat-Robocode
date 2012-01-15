@@ -5,29 +5,13 @@ import org.starcat.slipnet.Slipnet;
 import org.starcat.workspace.Workspace;
 
 
-public class CoderackUpdateCodelet 
-                extends ControlCodelet 
+public class CoderackUpdateCodelet extends ControlCodelet 
 {
-	// -------------------------------------------------------------------------
-    // Public Members
-	// -------------------------------------------------------------------------
+	public void execute(Workspace workspace) {}
     
-	public void execute(Workspace wkspc) 
-    {	
-        //
-        // Do nothing
-        //
-	}
+	public void execute(Slipnet slipent) {}
     
-	public void execute(Slipnet slpnt) 
-    {
-        //
-        // Do nothing
-        //
-	}
-    
-	public void execute(Coderack cdrck) 
-    {
-		cdrck.update();
+	public void execute(Coderack coderack) {
+		coderack.update();
 	}
 }

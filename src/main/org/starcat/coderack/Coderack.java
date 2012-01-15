@@ -44,11 +44,7 @@ public class Coderack extends Component {
 	// Constructor
 	// --------------------------------------------------------------------------
 
-	public Coderack() {
-		//
-		// Do nothing
-		//
-	}
+	public Coderack() {}
 
 	// --------------------------------------------------------------------------
 	// Public Members
@@ -226,7 +222,7 @@ public class Coderack extends Component {
 			// table.
 			lifetimeTable.removeCodelet(deadGuys[i]);
 			// Now remove the codelet from the urgency group.
-			deadGuys[i].group.remove(deadGuys[i].codelet);
+			deadGuys[i].getGroup().remove(deadGuys[i].getCodelet());
 		}
 	}
 }

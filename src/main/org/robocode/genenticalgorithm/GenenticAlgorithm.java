@@ -10,7 +10,7 @@ import org.robocode.genenticalgorithm.fitnesstest.IFitnessTest;
 public class GenenticAlgorithm
 {
    // --------------------------------------------------------------------------
-   // #region Private Data
+   // Private Data
    // --------------------------------------------------------------------------
 
    private List<Individual> population;
@@ -29,10 +29,8 @@ public class GenenticAlgorithm
 
    private boolean isPaused = true;
 
-   // #endregion
-
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
 
    public GenenticAlgorithm(int populationSize, IFitnessTest fitnessTest,
@@ -43,10 +41,8 @@ public class GenenticAlgorithm
       generateInitialPopulation(populationSize, initialIndividual);
    }
 
-   // #endregion
-
    // --------------------------------------------------------------------------
-   // #region Public Members
+   // Public Members
    // --------------------------------------------------------------------------
 
    public void setProgress(IProgress progress)
@@ -128,10 +124,8 @@ public class GenenticAlgorithm
       population = newPopulation;
    }
 
-   // #endregion
-
    // --------------------------------------------------------------------------
-   // #region Protected Members
+   // Protected Members
    // --------------------------------------------------------------------------
 
    /**
@@ -154,10 +148,8 @@ public class GenenticAlgorithm
       progress.setValue(100);
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Private Members
+   // Private Members
    // --------------------------------------------------------------------------
    
    private void checkForPause()

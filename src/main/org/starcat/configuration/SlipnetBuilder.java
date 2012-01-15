@@ -256,11 +256,8 @@ public abstract class SlipnetBuilder {
 	 */
 	protected void createSlipnetNode(String name, int conceptualDepth,
 			int initalActivation, int activationThreashold) {
-		SlipnetNode newNode = new SlipnetNode();
-		newNode.setName(name);
-		newNode.setConceptualDepth(conceptualDepth);
-		newNode.setActivation(initalActivation);
-		newNode.setActivationThreshold(activationThreashold);
+		SlipnetNode newNode = new SlipnetNode(name, conceptualDepth, 
+				initalActivation, activationThreashold, 0);
 
 		slipnet.addSlipnetNode(newNode);
 	}

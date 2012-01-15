@@ -1,5 +1,6 @@
 package org.starcat.structures;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Random;
@@ -21,38 +22,29 @@ public abstract class Entity extends Observable
    implements Cloneable, StarcatObject
 {
    // --------------------------------------------------------------------------
-   // #region Protected Data
+   // Private Data
    // --------------------------------------------------------------------------
 
-	//INSTANCE VARIABLES
-	protected Set<Descriptor> descriptors;
-	protected PublicStarcatObject sObjDelegate =
-		new PublicStarcatObject(this);
-	protected int relevance;
-	protected int completeness;
-	protected int salience;
-	protected long age;
-	
-	// #endregion
+	private Set<Descriptor> descriptors = new HashSet<Descriptor>();
+	private PublicStarcatObject sObjDelegate = new PublicStarcatObject(this);
+	private int relevance;
+	private int completeness;
+	private int salience;
+	private long age;
 	
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
 	
-	//CONSTRUCTORS
-	public Entity()
-	{
+	public Entity() {
 		age = BehaviorCodelet.getTotalAmountOfTimesCodeletWereExecuted();
 		update();
 	}
 	
-	// #endregion
-	
    // --------------------------------------------------------------------------
-   // #region Object Members
+   // Object Members
    // --------------------------------------------------------------------------
-   
-	  //CLONING
+
    public Entity clone()
    {
       Entity newEntity;
@@ -66,38 +58,18 @@ public abstract class Entity extends Observable
       return newEntity;
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region StarcatObject Members
+   //  StarcatObject Members
    // --------------------------------------------------------------------------
    
-   //IDENTITY AND LOGGING
-   public Object getId()
-   {
+   public Object getId() {
       return sObjDelegate.getId();
    }
-   
-   // #endregion
 	
    // --------------------------------------------------------------------------
-   // #region Local Protected Members
+   // Local Protected Members
    // --------------------------------------------------------------------------
-   
-	//DESCRIPTOR ACCESSORS
-	protected void setDescriptors(Set<Descriptor> descriptors) {
-		this.descriptors = descriptors;
-	}
 	
-	  // These methods need to be provided by the child
-   // objects and will define how relevance and 
-   // completeness are calculated for the object
-   // Relevance derives its computation from the slipnet
-   // which is known to be initialized by the XML file
-   // Completeness, on the other hand, is application-
-   // specific and so must be implemented in such a way as
-   // to guarantee that the computation is meaningful even
-   // upon immediate creation of the object.
    protected abstract void computeRelevance();
    protected abstract void computeCompleteness();
    
@@ -111,11 +83,9 @@ public abstract class Entity extends Observable
 
    //Clients will override this if there is additional update behavior
    protected void additionalUpdate() {}
-	
-	// #endregion
 
    // --------------------------------------------------------------------------
-   // #region Local Public Members
+   // Public Members
    // --------------------------------------------------------------------------
    
 	public void addDescriptor(Descriptor descriptor)
@@ -153,16 +123,12 @@ public abstract class Entity extends Observable
 		}
 		return i.next();
 	}
-	
-    //COMPARATORS
+
 	public boolean equals(Entity anotherEntity)
 	{
 		return super.equals(anotherEntity); 
-		//|| isDescribedBy(anotherEntity.getType());
 	}
 	
-
-	//CHANGE NOTIFICATION
 	public void setChangedAndNotify()
 	{
 		setChanged();
@@ -175,7 +141,6 @@ public abstract class Entity extends Observable
 		notifyObservers(arg);
 	}
 	
-	//SALIENCE, RELEVANCE AND COMPLETENESS ACCESSORS
 	public int getRelevance()
 	{
 		return relevance;
@@ -209,6 +174,4 @@ public abstract class Entity extends Observable
     {
     	return BehaviorCodelet.getTotalAmountOfTimesCodeletWereExecuted() - age;
     }
-    
-    // #endregion
 }

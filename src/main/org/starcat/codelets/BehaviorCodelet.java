@@ -48,7 +48,7 @@ import org.starcat.workspace.Workspace;
  */
 public abstract class BehaviorCodelet extends Codelet {
 	// -----------------------------------------------------------------------------
-	// #region Private Data
+	// Private Data
 	// ------------------------------------------------------------------------------
 
 	private static long executeCount = 0;
@@ -64,12 +64,10 @@ public abstract class BehaviorCodelet extends Codelet {
 	private int numberToEmit;
 
 	// -----------------------------------------------------------------------------
-	// #region Constructor
+	// Constructor
 	// -----------------------------------------------------------------------------
 
-	public BehaviorCodelet() {
-		// Do nothing
-	}
+	public BehaviorCodelet() {}
 
 	public BehaviorCodelet(Double urgency) {
 		this(null, urgency);
@@ -159,7 +157,7 @@ public abstract class BehaviorCodelet extends Codelet {
 	}
 
 	// -----------------------------------------------------------------------------
-	// Overidden Codelet Members
+	// Overridden Codelet Members
 	// -----------------------------------------------------------------------------
 
 	/*
@@ -225,7 +223,7 @@ public abstract class BehaviorCodelet extends Codelet {
 	}
 
 	// -----------------------------------------------------------------------------
-	// #region Public static Members
+	// Public static Members
 	// -----------------------------------------------------------------------------
 
 	/**
@@ -238,6 +236,4 @@ public abstract class BehaviorCodelet extends Codelet {
 	public static long getTotalAmountOfTimesCodeletWereExecuted() {
 		return executeCount;
 	}
-
-	// #endregion
 }

@@ -1,40 +1,42 @@
 package org.robocode.codelets;
 
-import java.util.Random;
-
 import org.robocode.BotCatable;
 import org.robocode.RobotUtilities;
 import org.robocode.workspace.RobocodeWorkspace;
 import org.starcat.codelets.FuzzyBehaviorCodelet;
 import org.starcat.workspace.Workspace;
 
+/**
+ * Codelet that senses how close to an Target in one given direction
+ * 
+ * @author lancewf
+ *
+ */
 public class TargetObserverBehaviorCodelet extends FuzzyBehaviorCodelet 
 {
    // --------------------------------------------------------------------------
-   // #region Public static Data
+   // Public static Data
    // --------------------------------------------------------------------------
    
-   public static final int LEFT = -90;
-   public static final int BACKWARD = 180;
    public static final int FORWARD = 0;
+   public static final int FORWARD_RIGHT = 45;
    public static final int RIGHT = 90;
-   
-   // #endregion
+   public static final int BACKWARD_RIGHT = 135;
+   public static final int BACKWARD = 180;
+   public static final int BACKWARD_LEFT = -135;
+   public static final int LEFT = -90;
+   public static final int FORWARD_LEFT = -45;
    
    // --------------------------------------------------------------------------
-   // #region Private Data
+   // Private Data
    // --------------------------------------------------------------------------
 
    private double headingToLook = 0.0;
    
    private int targetDistance = 400;
-   
-   private Random random = new Random();
-
-   // #endregion
 
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
 
    /**
@@ -58,10 +60,8 @@ public class TargetObserverBehaviorCodelet extends FuzzyBehaviorCodelet
       this.headingToLook = headingToLook;
    }
 
-   // #endregion
-
    // --------------------------------------------------------------------------
-   // #region Overridden Codelet Members
+   // Overridden Codelet Members
    // --------------------------------------------------------------------------
 
    @Override
@@ -72,19 +72,15 @@ public class TargetObserverBehaviorCodelet extends FuzzyBehaviorCodelet
          RobocodeWorkspace robocodeWorkspace = (RobocodeWorkspace) workspace;
          BotCatable robot = robocodeWorkspace.getRobot();
 
-         if (robot != null) 
-         {
-            double distance = findDistanceToObstacle(robot);
-
-            setCrispValue(distance);
-         }
+         double distance = RobotUtilities.findDistanceOpponets(robot,
+        		 headingToLook);
+         
+         setCrispValue(distance);
       }
    }
 
-   // #endregion
-
    // --------------------------------------------------------------------------
-   // #region Private Members
+   // Private Members
    // --------------------------------------------------------------------------
 
    private int getOneHalfTargetDistance()
@@ -96,27 +92,4 @@ public class TargetObserverBehaviorCodelet extends FuzzyBehaviorCodelet
    {
       return targetDistance / 2;
    }
-   
-   private double findDistanceToObstacle(BotCatable robot)
-   {
-      double modifiedHeadingToLook = headingToLook;
-
-      int amountToAdd = random.nextInt(30);
-
-      if (random.nextBoolean())
-      {
-         modifiedHeadingToLook += amountToAdd;
-      }
-      else
-      {
-         modifiedHeadingToLook -= amountToAdd;
-      }
-
-      double distance = RobotUtilities.findDistanceOpponets(robot,
-         modifiedHeadingToLook);
-
-      return distance;
-   }
-
-   // #endregion
 }

@@ -1,43 +1,32 @@
 package org.starcat.core;
 
 /**
- * Delegation class for objects wanting to implement the 
- * StarcatObject interface, which is probably pretty much 
- * every class in this whole architecture.
+ * Delegation class for objects wanting to implement the StarcatObject
+ * interface, which is probably pretty much every class in this whole
+ * architecture.
  * 
  */
-public class PublicStarcatObject 
-            implements StarcatObject
-{
-// -----------------------------------------------------------------------------
-// #region Data
-// -----------------------------------------------------------------------------
-   
+public class PublicStarcatObject implements StarcatObject {
+	// -------------------------------------------------------------------------
+	// Private Data
+	// -------------------------------------------------------------------------
+
 	private Object referent;
-	protected IdGenerator idGen;
-    
-//#endregion
+	private IdGenerator idGen = new IdGenerator();
 
-// -----------------------------------------------------------------------------
-// #region Constructor
-// -----------------------------------------------------------------------------
-    
-	public PublicStarcatObject(Object obj)
-	{
+	// -------------------------------------------------------------------------
+	// Constructor
+	// -------------------------------------------------------------------------
+
+	public PublicStarcatObject(Object obj) {
 		referent = obj;
-		idGen = new IdGenerator();
 	}
-    
-//#endregion
 
-// -----------------------------------------------------------------------------
-// #region Public Members
-// -----------------------------------------------------------------------------
-	
-   public Object getId()
-	{
+	// -------------------------------------------------------------------------
+	// Public Members
+	// -------------------------------------------------------------------------
+
+	public Object getId() {
 		return idGen.getId(referent);
-	}	
-    
-//#endregion
+	}
 }

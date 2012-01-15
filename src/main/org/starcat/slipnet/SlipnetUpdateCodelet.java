@@ -7,10 +7,6 @@ import org.starcat.workspace.Workspace;
 
 public class SlipnetUpdateCodelet extends ControlCodelet
 {
-// -----------------------------------------------------------------------------
-// #region Public Members
-// -----------------------------------------------------------------------------
-   
    public void execute(Workspace workspace)
    {
       //
@@ -18,17 +14,15 @@ public class SlipnetUpdateCodelet extends ControlCodelet
       //
    }
 
-   public void execute(Slipnet slpnt)
+   public void execute(Slipnet slipent)
    {
-      slpnt.update();
+	   slipent.update();
    }
 
-   public void execute(Coderack cdrck)
+   public void execute(Coderack coderack)
    {
       //
       //Do nothing
       //
    }
-   
-//#endregion
 }

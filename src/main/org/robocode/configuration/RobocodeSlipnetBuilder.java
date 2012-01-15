@@ -188,53 +188,53 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
       systemConfiguration.setSlipnetBehaviorAdaptiveExecute("false");
       systemConfiguration.setSlipnetControlAdaptiveExecute("false");
 
-      systemConfiguration.setWorkspaceBehaviorExecuteFactor(20);
-//      systemConfiguration.setWorkspaceBehaviorExecuteFactor(
-//         chromosome.getWorkspaceBehaviorExecuteFactor());
+//      systemConfiguration.setWorkspaceBehaviorExecuteFactor(20);
+      systemConfiguration.setWorkspaceBehaviorExecuteFactor(
+         chromosome.getWorkspaceBehaviorExecuteFactor());
       
-      systemConfiguration.setWorkspaceControlExecuteFactor(1);
-//      systemConfiguration.setWorkspaceControlExecuteFactor(
-//         chromosome.getWorkspaceControlExecuteFactor());
+//      systemConfiguration.setWorkspaceControlExecuteFactor(1);
+      systemConfiguration.setWorkspaceControlExecuteFactor(
+         chromosome.getWorkspaceControlExecuteFactor());
       
-      systemConfiguration.setCoderackBehaviorExecuteFactor(10);
-//      systemConfiguration.setCoderackBehaviorExecuteFactor(
-//         chromosome.getCoderackBehaviorExecuteFactor());
+//      systemConfiguration.setCoderackBehaviorExecuteFactor(10);
+      systemConfiguration.setCoderackBehaviorExecuteFactor(
+         chromosome.getCoderackBehaviorExecuteFactor());
       
-      systemConfiguration.setCoderackControlExecuteFactor(1);
-//      systemConfiguration.setCoderackControlExecuteFactor(
-//         chromosome.getCoderackControlExecuteFactor());
+//      systemConfiguration.setCoderackControlExecuteFactor(1);
+      systemConfiguration.setCoderackControlExecuteFactor(
+         chromosome.getCoderackControlExecuteFactor());
       
-      systemConfiguration.setSlipnetBehaviorExecuteFactor(10);
-//      systemConfiguration.setSlipnetBehaviorExecuteFactor(
-//         chromosome.getSlipnetBehaviorExecuteFactor());
+//      systemConfiguration.setSlipnetBehaviorExecuteFactor(10);
+      systemConfiguration.setSlipnetBehaviorExecuteFactor(
+         chromosome.getSlipnetBehaviorExecuteFactor());
       
-      systemConfiguration.setSlipnetControlExecuteFactor(1);
-//      systemConfiguration.setSlipnetControlExecuteFactor(
-//         chromosome.getSlipnetControlExecuteFactor());
+//      systemConfiguration.setSlipnetControlExecuteFactor(1);
+      systemConfiguration.setSlipnetControlExecuteFactor(
+         chromosome.getSlipnetControlExecuteFactor());
 
-      systemConfiguration.setWorkspaceBehaviorReductionFactor(0.01);
-//      systemConfiguration.setWorkspaceBehaviorReductionFactor(
-//         chromosome.getWorkspaceBehaviorReductionFactor());
+//      systemConfiguration.setWorkspaceBehaviorReductionFactor(0.01);
+      systemConfiguration.setWorkspaceBehaviorReductionFactor(
+         chromosome.getWorkspaceBehaviorReductionFactor());
       
-      systemConfiguration.setWorkspaceControlReductionFactor(0.01);
-//      systemConfiguration.setWorkspaceControlReductionFactor(
-//         chromosome.getWorkspaceControlReductionFactor());
+//      systemConfiguration.setWorkspaceControlReductionFactor(0.01);
+      systemConfiguration.setWorkspaceControlReductionFactor(
+         chromosome.getWorkspaceControlReductionFactor());
       
-      systemConfiguration.setCoderackBehaviorReductionFactor(0.01);
-//      systemConfiguration.setCoderackBehaviorReductionFactor(
-//         chromosome.getCoderackBehaviorReductionFactor());
+//      systemConfiguration.setCoderackBehaviorReductionFactor(0.01);
+      systemConfiguration.setCoderackBehaviorReductionFactor(
+         chromosome.getCoderackBehaviorReductionFactor());
       
-      systemConfiguration.setCoderackControlReductionFactor(0.01);
-//      systemConfiguration.setCoderackControlReductionFactor(
-//         chromosome.getCoderackControlReductionFactor());
+//      systemConfiguration.setCoderackControlReductionFactor(0.01);
+      systemConfiguration.setCoderackControlReductionFactor(
+         chromosome.getCoderackControlReductionFactor());
       
-      systemConfiguration.setSlipnetBehaviorReductionFactor(0.01);
-//      systemConfiguration.setSlipnetBehaviorReductionFactor(
-//         chromosome.getSlipnetBehaviorReductionFactor());
+//      systemConfiguration.setSlipnetBehaviorReductionFactor(0.01);
+      systemConfiguration.setSlipnetBehaviorReductionFactor(
+         chromosome.getSlipnetBehaviorReductionFactor());
       
-      systemConfiguration.setSlipnetControlReductionFactor(0.01);
-//      systemConfiguration.setSlipnetControlReductionFactor(
-//         chromosome.getSlipnetControlReductionFactor());
+//      systemConfiguration.setSlipnetControlReductionFactor(0.01);
+      systemConfiguration.setSlipnetControlReductionFactor(
+         chromosome.getSlipnetControlReductionFactor());
       
       systemConfiguration.setWorkspaceBehaviorSleeper("true");
       systemConfiguration.setWorkspaceControlSleeper("true");
@@ -243,35 +243,33 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
       systemConfiguration.setSlipnetBehaviorSleeper("true");
       systemConfiguration.setSlipnetControlSleeper("true");
 
-      systemConfiguration.setWorkspaceBehaviorSleepTime(10);
-//      systemConfiguration.setWorkspaceBehaviorSleepTime(
-//         chromosome.getWorkspaceBehaviorSleepTime());
+//      systemConfiguration.setWorkspaceBehaviorSleepTime(10);
+      systemConfiguration.setWorkspaceBehaviorSleepTime(
+         chromosome.getWorkspaceBehaviorSleepTime());
       
-      systemConfiguration.setWorkspaceControlSleepTime(10);
-//      systemConfiguration.setWorkspaceControlSleepTime(
-//         chromosome.getWorkspaceControlSleepTime());
+//      systemConfiguration.setWorkspaceControlSleepTime(10);
+      systemConfiguration.setWorkspaceControlSleepTime(
+         chromosome.getWorkspaceControlSleepTime());
       
-      systemConfiguration.setCoderackBehaviorSleepTime(10);
-//      systemConfiguration.setCoderackBehaviorSleepTime(
-//         chromosome.getCoderackBehaviorSleepTime());
+//      systemConfiguration.setCoderackBehaviorSleepTime(10);
+      systemConfiguration.setCoderackBehaviorSleepTime(
+         chromosome.getCoderackBehaviorSleepTime());
       
-      systemConfiguration.setCoderackControlSleepTime(10);
-//      systemConfiguration.setCoderackControlSleepTime(
-//         chromosome.getCoderackControlSleepTime());
+//      systemConfiguration.setCoderackControlSleepTime(10);
+      systemConfiguration.setCoderackControlSleepTime(
+         chromosome.getCoderackControlSleepTime());
       
-      systemConfiguration.setSlipnetBehaviorSleepTime(10);
-//      systemConfiguration.setSlipnetBehaviorSleepTime(
-//         chromosome.getSlipnetBehaviorSleepTime());
+//      systemConfiguration.setSlipnetBehaviorSleepTime(10);
+      systemConfiguration.setSlipnetBehaviorSleepTime(
+         chromosome.getSlipnetBehaviorSleepTime());
       
-      systemConfiguration.setSlipnetControlSleepTime(10);
-//      systemConfiguration.setSlipnetControlSleepTime(
-//         chromosome.getSlipnetControlSleepTime());
+//      systemConfiguration.setSlipnetControlSleepTime(10);
+      systemConfiguration.setSlipnetControlSleepTime(
+         chromosome.getSlipnetControlSleepTime());
    }
-
-   // #endregion
    
    // --------------------------------------------------------------------------
-   // #region Private Members
+   // Private Members
    // --------------------------------------------------------------------------
    
    private void createCodeletPreformers(Chromosome chromosome)
@@ -358,7 +356,7 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
          1,
          OBSTACLE_BACKWARD,
          CLEAR_BACKWARD);
-      
+    	      
       int targetDistance = chromosome.getTargetDistance();
       
       // Target Observers      

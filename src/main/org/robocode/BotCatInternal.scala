@@ -18,14 +18,20 @@ class BotCatInternal extends Actor {
         case "getTanks" => {
           reply(tanks.toList)
         }
+        case ("dead", deadTank: Tank) => {
+          val foundTank = findTank(deadTank);
+
+          if (foundTank != null) {
+            tanks -= foundTank
+          }
+        }
         case newTank: Tank => {
           val sameTank = findTank(newTank);
 
           if (sameTank != null) {
-            sameTank.update(newTank);
-          } else {
-            tanks += newTank
+            tanks -= sameTank
           }
+          tanks += newTank
         }
         case "currentMovent" => {
           reply((currentMovement, currentCommandCount))
@@ -38,21 +44,22 @@ class BotCatInternal extends Actor {
             currentCommandCount += 1
           }
         }
-        case "exit" =>
+        case "exit" =>{
           starCatRunner.stop()
           exit()
+        }
         case _ => //do nothing
       }
     }
   }
   
   private def findTank(lookingTank: Tank): Tank = {
-    return findTank(lookingTank.getName());
+    return findTank(lookingTank.name);
   }
 
   private def findTank(tankName: String): Tank = {
     for (tank <- tanks) {
-      if (tank.getName().equals(tankName)) {
+      if (tank.name.equals(tankName)) {
         return tank;
       }
     }

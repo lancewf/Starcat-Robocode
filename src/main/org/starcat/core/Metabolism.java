@@ -1,6 +1,5 @@
 package org.starcat.core;
 
-import org.starcat.codelets.CodeletEvent;
 import org.starcat.codelets.CodeletEventListener;
 
 /**
@@ -19,7 +18,6 @@ public interface Metabolism
 {
 	public void start();
 	public void stop();
-	public void handleCodeletEvent(CodeletEvent event);
 	public Component getComponent();
 
 	//TODO why is this here?

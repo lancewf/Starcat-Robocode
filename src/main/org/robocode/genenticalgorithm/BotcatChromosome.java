@@ -17,8 +17,9 @@ public class BotcatChromosome extends SizableChromosome
    private static final int MINIMUM_COLOR_VALUE = 0;
 
    private static final int MAXIMUM_COLOR_VALUE = 255;
+   
    // --------------------------------------------------------------------------
-   // #region Static Private Data
+   // Static Private Data
    // --------------------------------------------------------------------------
    
    private static final String MEMORY_TAG = "memory";
@@ -27,10 +28,8 @@ public class BotcatChromosome extends SizableChromosome
       "activationThreashold";
    private static final int MAXIMUM_BASE_VALUE = 100;
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
 
    public BotcatChromosome()
@@ -50,10 +49,8 @@ public class BotcatChromosome extends SizableChromosome
       super(botcatChromosome);
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Public Member
+   // Public Member
    // --------------------------------------------------------------------------
    
    /**

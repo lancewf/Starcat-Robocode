@@ -6,17 +6,15 @@ import org.starcat.util.FuzzySet;
 public abstract class FuzzyBehaviorCodelet extends BehaviorCodelet
 {
    // --------------------------------------------------------------------------
-   // #region Private Data
+   // Private Data
    // --------------------------------------------------------------------------
       
    private FuzzySet successFuzzySet = new FuzzySet();
    private FuzzySet failureFuzzySet = new FuzzySet();
    private double crispValue;
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Public Members
+   // Public Members
    // --------------------------------------------------------------------------
    
    public void setCrispValue(double crispValue)
@@ -135,11 +133,9 @@ public abstract class FuzzyBehaviorCodelet extends BehaviorCodelet
    {
       this.failureFuzzySet.setMaximumZeroValueX(maximumZeroValueX);
    }
-
-   // #endregion
    
    // --------------------------------------------------------------------------
-   // #region Overridden Codelet Members
+   // Overridden Codelet Members
    // --------------------------------------------------------------------------
       
    public void execute(Slipnet slipnet)
@@ -166,7 +162,4 @@ public abstract class FuzzyBehaviorCodelet extends BehaviorCodelet
             amountToAdd);
       }
    }
-   
-   // #endregion
-   
 }

@@ -12,25 +12,20 @@ import java.util.Random;
 public abstract class SizableChromosome implements Chromosome
 {
    // --------------------------------------------------------------------------
-   // #region Private Static Data
+   // Private Static Data
    // --------------------------------------------------------------------------
    
-   private static final double PERCENTAGE_MUTATED = 0.01;
    private static final int MUTATION_DIFF_VALUE = 25;
    private static final int EIGHT_MUTATION_DIFF_VALUE = MUTATION_DIFF_VALUE/8;
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Private Data
+   // Private Data
    // --------------------------------------------------------------------------
    
    private Properties properties;
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // --------------------------------------------------------------------------
 
    public SizableChromosome()
@@ -73,7 +68,6 @@ public abstract class SizableChromosome implements Chromosome
             }
             catch (IOException e)
             {
-               // TODO Auto-generated catch block
                e.printStackTrace();
             }
          }
@@ -85,10 +79,8 @@ public abstract class SizableChromosome implements Chromosome
       this.properties = (Properties)sizableChromosome.properties.clone();
    }
    
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Public Members
+   // Public Members
    // --------------------------------------------------------------------------
    
    public SizableChromosome mutate(Random random)
@@ -111,20 +103,14 @@ public abstract class SizableChromosome implements Chromosome
    {
       SizableChromosome mutatedChromosome = (SizableChromosome)clone();
       
-      int amountToMutate = (int)(getSize() * PERCENTAGE_MUTATED);
       for (int index = 0; index < getSize(); index++)
       {
-         // one percent of the bases get mutated
-         if (random.nextInt(amountToMutate) == 0)
-         {
             String key = getKey(index);
             
             int newValue = getMutateBase(random,
-               mutatedChromosome.getValue(key),
-               EIGHT_MUTATION_DIFF_VALUE);
+               mutatedChromosome.getValue(key), EIGHT_MUTATION_DIFF_VALUE);
 
             mutatedChromosome.setValue(key, newValue);
-         }
       }
 
       return mutatedChromosome;
@@ -175,8 +161,8 @@ public abstract class SizableChromosome implements Chromosome
          }
          else
          {
-            child1.setValue(key, getValue(key));
-            child2.setValue(key, sizableMate.getValue(key));
+            child2.setValue(key, getValue(key));
+            child1.setValue(key, sizableMate.getValue(key));
          }
          index++;
       }
@@ -204,10 +190,8 @@ public abstract class SizableChromosome implements Chromosome
       }
    }
 
-   // #endregion
-   
    // --------------------------------------------------------------------------
-   // #region Protected Members
+   // Protected Members
    // --------------------------------------------------------------------------
    
    /**
@@ -272,11 +256,9 @@ public abstract class SizableChromosome implements Chromosome
    }
    
    public abstract SizableChromosome clone();
-   
-   // #endregion
-   
+
    // --------------------------------------------------------------------------
-   // #region Private Member
+   //  Private Member
    // --------------------------------------------------------------------------
    
    /**
@@ -325,6 +307,4 @@ public abstract class SizableChromosome implements Chromosome
    {
       return properties.size();
    }
-   
-   // #endregion
 }

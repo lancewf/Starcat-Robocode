@@ -19,9 +19,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JToggleButton;
 
-import org.robocode.BotCatListener;
 import org.robocode.genenticalgorithm.fitnesstest.IFitnessTest;
 
 public class GenenticUI extends JFrame implements Runnable
@@ -42,13 +40,7 @@ public class GenenticUI extends JFrame implements Runnable
 
    private boolean running = false;
 
-   private boolean isRobocodeVisible = false;
-
-   private BotCatListener listener;
-
    private BorderLayout borderLayout1 = new BorderLayout();
-
-   private JToggleButton viewToggleButton = new JToggleButton();
 
    private JButton startJButton = new JButton();
 
@@ -70,14 +62,13 @@ public class GenenticUI extends JFrame implements Runnable
    // #region Constructor
    // --------------------------------------------------------------------------
 
-   public GenenticUI(BotCatListener listener, GenerationRunner generationRunner,
+   public GenenticUI(GenerationRunner generationRunner,
                      IFitnessTest fitnessTest)
    {
       try
       {
          jbInit();
 
-         this.listener = listener;
          this.generationRunner = generationRunner;
          this.fitnessTest = fitnessTest;
 
@@ -101,12 +92,6 @@ public class GenenticUI extends JFrame implements Runnable
    public IProgress getProgressBar()
    {
       return new Progress(progressBar1);
-   }
-
-   public void robocodeViewToggleButton_mouseClicked(MouseEvent e)
-   {
-      isRobocodeVisible = !isRobocodeVisible;
-      listener.setVisiable(isRobocodeVisible);
    }
 
    public void startJButton_mouseClicked(MouseEvent e)
@@ -217,14 +202,6 @@ public class GenenticUI extends JFrame implements Runnable
       pauseJButton.setEnabled(false);
       jPanel1.add(pauseJButton, null);
 
-      // viewToggleButton
-      viewToggleButton.setSelected(false);
-      viewToggleButton.setText("Battle View");
-      viewToggleButton
-         .addMouseListener(new MapDisplay_roverViewToggleButton_mouseAdapter(
-            this));
-      jPanel1.add(viewToggleButton, null);
-
       this.getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
       this.getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
       this.getContentPane().add(southjPanel, java.awt.BorderLayout.SOUTH);
@@ -259,8 +236,6 @@ public class GenenticUI extends JFrame implements Runnable
                Chromosome chromosome = new BotcatChromosome(file);
                final Individual individaul = new Individual(chromosome);
                
-               listener.setVisiable(true);
-               
                GenenticUI.this.setEnabled(false);
                
                Thread thread = new Thread()
@@ -268,7 +243,6 @@ public class GenenticUI extends JFrame implements Runnable
                   public void run()
                   {
                      fitnessTest.run(individaul);
-                     listener.setVisiable(isRobocodeVisible);
                      
                      EventQueue.invokeLater(new Runnable()
                      {
@@ -354,27 +328,10 @@ public class GenenticUI extends JFrame implements Runnable
       
       return toolsMenu;
    }
-
-   // #endregion
 }
    // --------------------------------------------------------------------------
-   // #region Local Classes
+   // Local Classes
    // --------------------------------------------------------------------------
-
-class MapDisplay_roverViewToggleButton_mouseAdapter extends MouseAdapter
-{
-   private GenenticUI adaptee;
-
-   MapDisplay_roverViewToggleButton_mouseAdapter(GenenticUI adaptee)
-   {
-      this.adaptee = adaptee;
-   }
-
-   public void mouseClicked(MouseEvent e)
-   {
-      adaptee.robocodeViewToggleButton_mouseClicked(e);
-   }
-}
 
 class GenenticUI_startJButton_mouseAdapter extends MouseAdapter
 {
@@ -405,5 +362,3 @@ class GenenticUI_pauseJButton_mouseAdapter extends MouseAdapter
       adaptee.pauseJButton_mouseClicked(e);
    }
 }
-
-// #endregion

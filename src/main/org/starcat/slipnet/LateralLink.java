@@ -5,15 +5,8 @@ package org.starcat.slipnet;
  */
 public class LateralLink extends Link
 {
-// -----------------------------------------------------------------------------
-// #region Constructor
-// -----------------------------------------------------------------------------
+   public LateralLink(){}
    
-   public LateralLink()
-   {
-      super();
-   }
-
    public LateralLink(String name, int intrinsicLength, SlipnetNode from,
          SlipnetNode to)
    {
@@ -24,6 +17,4 @@ public class LateralLink extends Link
    {
       this("", intrinsicLength, from, to);
    }
-   
-// #endregion
 }

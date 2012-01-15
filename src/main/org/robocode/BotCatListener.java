@@ -20,18 +20,15 @@ import robocode.control.events.TurnStartedEvent;
 
 public class BotCatListener implements IBattleListener {
 	// --------------------------------------------------------------------------
-	// #region Private Data
+	// Private Data
 	// --------------------------------------------------------------------------
 
 	private boolean isBattleDone = true;
 	private RobocodeEngine engine;
-	private boolean isVisiable = true;
 	private BattleResults endResult;
 
-	// #endregion
-
 	// --------------------------------------------------------------------------
-	// #region Public Members
+	// Public Members
 	// --------------------------------------------------------------------------
 
 	public BattleResults getRobotResults() {
@@ -42,15 +39,9 @@ public class BotCatListener implements IBattleListener {
 		if (isBattleDone) {
 			endResult = null;
 			isBattleDone = false;
-			engine.setVisible(isVisiable);
+			engine.setVisible(true);
 			engine.runBattle(battle);
 			waitForTest();
-		}
-	}
-
-	public void setVisiable(boolean visiable) {
-		synchronized (this) {
-			this.isVisiable = visiable;
 		}
 	}
 
@@ -63,10 +54,8 @@ public class BotCatListener implements IBattleListener {
 		endResult = null;
 	}
 
-	// #endregion
-
 	// --------------------------------------------------------------------------
-	// #region Private Members
+	// Private Members
 	// --------------------------------------------------------------------------
 
 	private void waitForTest() {
@@ -79,10 +68,8 @@ public class BotCatListener implements IBattleListener {
 		}
 	}
 
-	// #endregion
-
 	// --------------------------------------------------------------------------
-	// #region RobocodeListener Members
+	// RobocodeListener Members
 	// --------------------------------------------------------------------------
 
 	@Override
@@ -155,6 +142,4 @@ public class BotCatListener implements IBattleListener {
 		// TODO Auto-generated method stub
 
 	}
-
-	// #endregion
 }

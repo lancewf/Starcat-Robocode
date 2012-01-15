@@ -16,14 +16,9 @@ import org.starcat.workspace.Workspace;
  * 
  */
 public class EnergyLevelBehaviorCodlet extends FuzzyBehaviorCodelet {
-   // -----------------------------------------------------------------------------
-   // #region Private Data
-   // -----------------------------------------------------------------------------
-
-   // #endregion
 
    // -----------------------------------------------------------------------------
-   // #region Constructor
+   // Constructor
    // -----------------------------------------------------------------------------
 
    /**
@@ -57,10 +52,8 @@ public class EnergyLevelBehaviorCodlet extends FuzzyBehaviorCodelet {
       setFailureMaximumZeroValueX(Double.MAX_VALUE);
    }
 
-   // #endregion
-
    // -----------------------------------------------------------------------------
-   // #region Overridden Codelet Members
+   // Overridden Codelet Members
    // -----------------------------------------------------------------------------
 
    @Override
@@ -76,6 +69,4 @@ public class EnergyLevelBehaviorCodlet extends FuzzyBehaviorCodelet {
          setCrispValue(energy);
       }
    }
-
-   // #endregion
 }
