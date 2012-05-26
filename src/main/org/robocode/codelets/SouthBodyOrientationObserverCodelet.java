@@ -8,7 +8,7 @@ import org.starcat.workspace.Workspace;
 /**
  * 
  * M  |      
- * e 1|------------_-_--------------- 
+ * e 1|            _-_
  * M  |          _-   -_   
  * B  |        _-       -_    
  * E 0|_______-____________-_________
@@ -48,5 +48,5 @@ extends FuzzyBehaviorCodelet
 
          setCrispValue(bearing);
       }
-   }
+   } 
 }

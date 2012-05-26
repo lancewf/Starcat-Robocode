@@ -134,14 +134,22 @@ public abstract class FuzzyBehaviorCodelet extends BehaviorCodelet
       this.failureFuzzySet.setMaximumZeroValueX(maximumZeroValueX);
    }
    
+   public double getSuccessMemberValue(){
+	   return successFuzzySet.getMemberValue(crispValue);
+   }
+   
+   public double getFailureMemberValue(){
+	   return failureFuzzySet.getMemberValue(crispValue);
+   }
+   
    // --------------------------------------------------------------------------
    // Overridden Codelet Members
    // --------------------------------------------------------------------------
       
    public void execute(Slipnet slipnet)
    {
-      double successMemberValue = successFuzzySet.getMemberValue(crispValue);
-      double failureMemberValue = failureFuzzySet.getMemberValue(crispValue);
+      double successMemberValue = getSuccessMemberValue();
+      double failureMemberValue = getFailureMemberValue();
       for (SlipnetNodeActivationRecipient successfullRecipient : 
          getSuccessActivationRecipients())
       {

@@ -35,7 +35,7 @@ public class SlipnetNode implements Cloneable, Keyable, StarcatObject {
 
 	private List<CategoryLink> categoryLinks = new ArrayList<CategoryLink>();
 	private List<InstanceLink> instanceLinks = new ArrayList<InstanceLink>();
-	private List<LateralLink> lateralLinks = new ArrayList<LateralLink>();
+	private List<Link> lateralLinks = new ArrayList<Link>();
 	private List<PropertyLink> propertyLinks = new ArrayList<PropertyLink>();
 	private List<SlipLink> slipLinks = new ArrayList<SlipLink>();
 
@@ -84,7 +84,7 @@ public class SlipnetNode implements Cloneable, Keyable, StarcatObject {
 	// -----------------------------------------------------------------------------
 
 	public void linkToSelf() {
-		LateralLink lLink = Link.createIdentityLink(this);
+		Link lLink = Link.createIdentityLink(this);
 		addLateralLink(lLink);
 	}
 
@@ -97,8 +97,8 @@ public class SlipnetNode implements Cloneable, Keyable, StarcatObject {
 		activationBuffer = activationBuffer + amount;
 	}
 
-	public void addCodelet(Codelet cod) {
-		codeletList.add(cod);
+	public void addCodelet(Codelet codelet) {
+		codeletList.add(codelet);
 	}
 
 	public void addCategoryLink(CategoryLink link) {
@@ -113,7 +113,7 @@ public class SlipnetNode implements Cloneable, Keyable, StarcatObject {
 		link.getToNode().addIncomingLink(link);
 	}
 
-	public void addLateralLink(LateralLink link) {
+	public void addLateralLink(Link link) {
 		lateralLinks.add(link);
 		outgoingLinks.add(link);
 		link.getToNode().addIncomingLink(link);
@@ -204,14 +204,14 @@ public class SlipnetNode implements Cloneable, Keyable, StarcatObject {
 	public Set<SlipnetNode> getLateralNodes() {
 		Set<SlipnetNode> lats = new HashSet<SlipnetNode>();
 
-		for (LateralLink lateralLink : lateralLinks) {
+		for (Link lateralLink : lateralLinks) {
 			lats.add(lateralLink.getToNode());
 		}
 		return lats;
 	}
 
-	public LateralLink getIdentityLink() {
-		for (LateralLink lateralLink : lateralLinks) {
+	public Link getIdentityLink() {
+		for (Link lateralLink : lateralLinks) {
 			if (lateralLink.getToNode() == lateralLink.getFromNode()
 					&& lateralLink.getToNode() == this) {
 				return lateralLink;
@@ -252,7 +252,7 @@ public class SlipnetNode implements Cloneable, Keyable, StarcatObject {
 		return link.getLabelNode();
 	}
 
-	public List<LateralLink> getLateralLinks() {
+	public List<Link> getLateralLinks() {
 		return lateralLinks;
 	}
 

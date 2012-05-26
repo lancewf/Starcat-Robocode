@@ -1,13 +1,20 @@
 package org.robocode;
 
-public enum RobotAction
-{
-   FORWARD,
-   BACKWARD,
-   TURN_RIGHT,
-   TURN_LEFT,
-   DONT_MOVE,
-   FIRE, 
-   TURN_TURRET_RIGHT,
-   TURN_TURRET_LEFT
+public class RobotAction {
+
+	private int amount;
+	private RobotActionType robotActionType;
+	
+	public RobotAction(RobotActionType robotActionType, int amount){
+		this.robotActionType = robotActionType;
+		this.amount = amount;
+	}
+	
+	public int getAmount() {
+		return amount;
+	}
+	
+	public RobotActionType getRobotActionType() {
+		return robotActionType;
+	}
 }

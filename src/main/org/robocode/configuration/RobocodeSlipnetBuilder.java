@@ -1,10 +1,8 @@
 package org.robocode.configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.robocode.RobotAction;
+import org.robocode.RobotActionType;
 import org.robocode.codelets.BackwardTurretOrientationObserverCodelet;
+import org.robocode.codelets.BulletHitMissBehaviorCodlet;
 import org.robocode.codelets.EnergyLevelBehaviorCodlet;
 import org.robocode.codelets.ForwardTurretOrientationObserverCodelet;
 import org.robocode.codelets.FuzzyObstacleBehaviorCodelet;
@@ -18,85 +16,52 @@ import org.robocode.codelets.EastBodyOrientationObserverCodelet;
 import org.robocode.codelets.WestBodyOrientationObserverCodelet;
 import org.robocode.genenticalgorithm.BotcatChromosome;
 import org.robocode.genenticalgorithm.Chromosome;
+import org.starcat.configuration.ParameterData;
 import org.starcat.configuration.SlipnetBuilder;
-import org.starcat.configuration.SystemConfiguration;
-import org.starcat.slipnet.LateralLink;
 
 public class RobocodeSlipnetBuilder extends SlipnetBuilder
 {
    // --------------------------------------------------------------------------
-   // #region Private Static Data
+   // Private Static Data
    // --------------------------------------------------------------------------
    
-   private static final String ENERGY_LOW_NODE_NAME = "energyLow";
-   private static final String ENERGY_HIGH_NODE_NAME = "energyHigh";
-   private static final String OBSTACLE_LEFT = "obstacleLeft";
-   private static final String OBSTACLE_RIGHT = "obstacleRight";
-   private static final String OBSTACLE_FRONT = "obstacleFront";
    private static final String OBSERVER = "obstacleObserver";
-   private static final String CLEAR_RIGHT = "clearRight";
-   private static final String CLEAR_LEFT = "clearLeft";
-   private static final String CLEAR_FOREWARD = "clearFront";
-   private static final String OBSTACLE_BACKWARD = "obstacleBackward";
-   private static final String CLEAR_BACKWARD = "clearBackward";
-   private static final String TARGET_LEFT = "targetLeft";
-   private static final String TARGET_RIGHT = "targetRight";
-   private static final String TARGET_FORWARD = "targetForward";
-   private static final String TARGET_BACKWARD = "targetBackward";
-   
-   private static final String MOVE_FORWARD= "moveForward";
-   private static final String FIRE = "fire";
-   private static final String DO_NOT_MOVE = "doNotMove";
-   private static final String MOVE_BACKWARD = "moveBackward";
-   private static final String TURN_RIGHT = "turnRight";
-   private static final String TURN_LEFT = "turnLeft";
-   
-   private static final String ORIENTATION_NORTH = "orientationNorth";
-   private static final String ORIENTATION_SOUTH = "orientationSouth";
-   private static final String ORIENTATION_WEST = "orientationWest";
-   private static final String ORIENTATION_EAST = "orientatinoEast";
-   
-   private static final String TURN_TURRET_RIGHT = "turnTurretRight";
-   private static final String TURN_TURRET_LEFT = "turnTurretLeft";
-   
-   private static final String TURRET_FORWARD = "turretForward";
-   private static final String TURRET_BACKWARD = "turretBackward";
-   private static final String TURRET_RIGHT = "turretRight";
-   private static final String TURRET_LEFT = "turretLeft";
 
    // --------------------------------------------------------------------------
-   // #region Protected Overridden Methods
+   // Protected Overridden Methods
    // --------------------------------------------------------------------------
    
    /**
     * Create all the slipnet nodes for the system
     */
-   protected void createSlipnetNodes(Chromosome chromosome, 
-                                     List<String> slipnetNodeNames)
+   protected void createSlipnetNodes(Chromosome chromosome)
    {
       createSlipnetNode(OBSERVER, 100, 99, 1);
       
-      for(String slipnetNode : slipnetNodeNames)
+      for(String slipnetNode : chromosome.getSlipnetNodeList())
       {
-         int conceptualDepth = chromosome.getMemoryLevel(slipnetNode);
+         int memoryLevel = chromosome.getMemoryLevel(slipnetNode);
+         
+          //only the CodeletPreformers use this. 
          int activationThreashold = 
             chromosome.getActivationThreshold(slipnetNode);
          
+         int initalActivation = chromosome.getInitalActivation(slipnetNode);
+         
          createSlipnetNode(slipnetNode, 
-            conceptualDepth, 0, activationThreashold);
+            memoryLevel, initalActivation, activationThreashold);
       }
    }
 
    /**
     * Create all the links for the system
     */
-   protected void createLinks(Chromosome chromosome, 
-                              List<String> slipnetNodeNames)
+   protected void createLinks(Chromosome chromosome)
    {
       //link length must be from 0 - 100 integer
-      for(String fromSlipnetNode : slipnetNodeNames)
+      for(String fromSlipnetNode : chromosome.getSlipnetNodeList())
       {
-         for(String toSlipnetNode : slipnetNodeNames)
+         for(String toSlipnetNode : chromosome.getSlipnetNodeList())
          {
             int value = chromosome.getLinkLength(
                fromSlipnetNode, toSlipnetNode);
@@ -105,8 +70,7 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
             // to save process time do not create a link
             if(value < 100)
             {
-               createLink(new LateralLink(), fromSlipnetNode, 
-                  toSlipnetNode, value);
+               createLink(fromSlipnetNode, toSlipnetNode, value);
             }
          }
       }
@@ -121,152 +85,83 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
       
       createCodeletPreformers(chromosome);
    }
-   
-   protected List<String> getSlipnetNodeList(Chromosome chromosome)
-   {
-      List<String> slipnetNodes = new ArrayList<String>();
-      
-      slipnetNodes.add(OBSTACLE_LEFT);
-      slipnetNodes.add(OBSTACLE_RIGHT);
-      slipnetNodes.add(OBSTACLE_FRONT);
-      slipnetNodes.add(OBSTACLE_BACKWARD);
-
-      slipnetNodes.add(CLEAR_LEFT);
-      slipnetNodes.add(CLEAR_RIGHT);
-      slipnetNodes.add(CLEAR_FOREWARD);
-      slipnetNodes.add(CLEAR_BACKWARD);
-
-      slipnetNodes.add(TARGET_RIGHT);
-      slipnetNodes.add(TARGET_LEFT);
-      slipnetNodes.add(TARGET_FORWARD);
-      slipnetNodes.add(TARGET_BACKWARD);
-      
-      slipnetNodes.add(TURN_RIGHT);
-      slipnetNodes.add(TURN_LEFT);
-      slipnetNodes.add(MOVE_FORWARD);
-      slipnetNodes.add(MOVE_BACKWARD);
-      slipnetNodes.add(DO_NOT_MOVE);
-      slipnetNodes.add(FIRE);
-      slipnetNodes.add(ENERGY_HIGH_NODE_NAME);
-      slipnetNodes.add(ENERGY_LOW_NODE_NAME);
-      
-      slipnetNodes.add(ORIENTATION_NORTH);
-      slipnetNodes.add(ORIENTATION_SOUTH);
-      slipnetNodes.add(ORIENTATION_WEST);
-      slipnetNodes.add(ORIENTATION_EAST);
-      
-      slipnetNodes.add(TURRET_RIGHT);
-      slipnetNodes.add(TURRET_LEFT);
-      slipnetNodes.add(TURRET_BACKWARD);
-      slipnetNodes.add(TURRET_FORWARD);
-      
-      slipnetNodes.add(TURN_TURRET_RIGHT);
-      slipnetNodes.add(TURN_TURRET_LEFT);
-      
-      int numberOfExtraNodes = chromosome.getNumberOfExtraNodes();
-      
-      for(int count = 0; count < numberOfExtraNodes; count++)
-      {
-         slipnetNodes.add(BotcatChromosome.EXTRA_NODE_TAG + count);
-      }
-      
-      return slipnetNodes;
-   }
 
    /**
     * Initialize the system configurations
     */
-   protected void initializeSystemConfigurations(
-                                        SystemConfiguration systemConfiguration,
-                                        Chromosome chromosome)
-   {
-      // System Configuration
-      systemConfiguration.setWorkspaceBehaviorAdaptiveExecute("false");
-      systemConfiguration.setWorkspaceControlAdaptiveExecute("false");
-      systemConfiguration.setCoderackBehaviorAdaptiveExecute("false");
-      systemConfiguration.setCoderackControlAdaptiveExecute("false");
-      systemConfiguration.setSlipnetBehaviorAdaptiveExecute("false");
-      systemConfiguration.setSlipnetControlAdaptiveExecute("false");
+	protected void initializeSystemConfigurations(Chromosome chromosome) {
+		// Adaptive Execute methods
+		ParameterData.initializeWorkspaceBehaviorAdaptiveExecute(false);
+		ParameterData.initializeWorkspaceControlAdaptiveExecute(false);
+		ParameterData.initializeCoderackBehaviorAdaptiveExecute(false);
+		ParameterData.initializeCoderackControlAdaptiveExecute(false);
+		ParameterData.initializeSlipnetBehaviorAdaptiveExecute(false);
+		ParameterData.initializeSlipnetControlAdaptiveExecute(false);
 
-//      systemConfiguration.setWorkspaceBehaviorExecuteFactor(20);
-      systemConfiguration.setWorkspaceBehaviorExecuteFactor(
-         chromosome.getWorkspaceBehaviorExecuteFactor());
-      
-//      systemConfiguration.setWorkspaceControlExecuteFactor(1);
-      systemConfiguration.setWorkspaceControlExecuteFactor(
-         chromosome.getWorkspaceControlExecuteFactor());
-      
-//      systemConfiguration.setCoderackBehaviorExecuteFactor(10);
-      systemConfiguration.setCoderackBehaviorExecuteFactor(
-         chromosome.getCoderackBehaviorExecuteFactor());
-      
-//      systemConfiguration.setCoderackControlExecuteFactor(1);
-      systemConfiguration.setCoderackControlExecuteFactor(
-         chromosome.getCoderackControlExecuteFactor());
-      
-//      systemConfiguration.setSlipnetBehaviorExecuteFactor(10);
-      systemConfiguration.setSlipnetBehaviorExecuteFactor(
-         chromosome.getSlipnetBehaviorExecuteFactor());
-      
-//      systemConfiguration.setSlipnetControlExecuteFactor(1);
-      systemConfiguration.setSlipnetControlExecuteFactor(
-         chromosome.getSlipnetControlExecuteFactor());
+		// Execute Factor methods
+		ParameterData.initializeWorkspaceBehaviorExecuteFactor(chromosome
+				.getWorkspaceBehaviorExecuteFactor());
+		ParameterData.initializeWorkspaceControlExecuteFactor(chromosome
+				.getWorkspaceControlExecuteFactor());
 
-//      systemConfiguration.setWorkspaceBehaviorReductionFactor(0.01);
-      systemConfiguration.setWorkspaceBehaviorReductionFactor(
-         chromosome.getWorkspaceBehaviorReductionFactor());
-      
-//      systemConfiguration.setWorkspaceControlReductionFactor(0.01);
-      systemConfiguration.setWorkspaceControlReductionFactor(
-         chromosome.getWorkspaceControlReductionFactor());
-      
-//      systemConfiguration.setCoderackBehaviorReductionFactor(0.01);
-      systemConfiguration.setCoderackBehaviorReductionFactor(
-         chromosome.getCoderackBehaviorReductionFactor());
-      
-//      systemConfiguration.setCoderackControlReductionFactor(0.01);
-      systemConfiguration.setCoderackControlReductionFactor(
-         chromosome.getCoderackControlReductionFactor());
-      
-//      systemConfiguration.setSlipnetBehaviorReductionFactor(0.01);
-      systemConfiguration.setSlipnetBehaviorReductionFactor(
-         chromosome.getSlipnetBehaviorReductionFactor());
-      
-//      systemConfiguration.setSlipnetControlReductionFactor(0.01);
-      systemConfiguration.setSlipnetControlReductionFactor(
-         chromosome.getSlipnetControlReductionFactor());
-      
-      systemConfiguration.setWorkspaceBehaviorSleeper("true");
-      systemConfiguration.setWorkspaceControlSleeper("true");
-      systemConfiguration.setCoderackBehaviorSleeper("true");
-      systemConfiguration.setCoderackControlSleeper("true");
-      systemConfiguration.setSlipnetBehaviorSleeper("true");
-      systemConfiguration.setSlipnetControlSleeper("true");
+		ParameterData.initializeCoderackBehaviorExecuteFactor(chromosome
+				.getCoderackBehaviorExecuteFactor());
 
-//      systemConfiguration.setWorkspaceBehaviorSleepTime(10);
-      systemConfiguration.setWorkspaceBehaviorSleepTime(
-         chromosome.getWorkspaceBehaviorSleepTime());
-      
-//      systemConfiguration.setWorkspaceControlSleepTime(10);
-      systemConfiguration.setWorkspaceControlSleepTime(
-         chromosome.getWorkspaceControlSleepTime());
-      
-//      systemConfiguration.setCoderackBehaviorSleepTime(10);
-      systemConfiguration.setCoderackBehaviorSleepTime(
-         chromosome.getCoderackBehaviorSleepTime());
-      
-//      systemConfiguration.setCoderackControlSleepTime(10);
-      systemConfiguration.setCoderackControlSleepTime(
-         chromosome.getCoderackControlSleepTime());
-      
-//      systemConfiguration.setSlipnetBehaviorSleepTime(10);
-      systemConfiguration.setSlipnetBehaviorSleepTime(
-         chromosome.getSlipnetBehaviorSleepTime());
-      
-//      systemConfiguration.setSlipnetControlSleepTime(10);
-      systemConfiguration.setSlipnetControlSleepTime(
-         chromosome.getSlipnetControlSleepTime());
-   }
+		ParameterData.initializeCoderackControlExecuteFactor(chromosome
+				.getCoderackControlExecuteFactor());
+
+		ParameterData.initializeSlipnetBehaviorExecuteFactor(chromosome
+				.getSlipnetBehaviorExecuteFactor());
+
+		ParameterData.initializeSlipnetControlExecuteFactor(chromosome
+				.getSlipnetControlExecuteFactor());
+
+		// Reduction factor methods
+		ParameterData.initializeWorkspaceBehaviorReductionFactor(chromosome
+				.getWorkspaceBehaviorReductionFactor());
+
+		ParameterData.initializeWorkspaceControlReductionFactor(chromosome
+				.getWorkspaceControlReductionFactor());
+
+		ParameterData.initializeCoderackBehaviorReductionFactor(chromosome
+				.getCoderackBehaviorReductionFactor());
+
+		ParameterData.initializeCoderackControlReductionFactor(chromosome
+				.getCoderackControlReductionFactor());
+
+		ParameterData.initializeSlipnetBehaviorReductionFactor(chromosome
+				.getSlipnetBehaviorReductionFactor());
+
+		ParameterData.initializeSlipnetControlReductionFactor(chromosome
+				.getSlipnetControlReductionFactor());
+
+		// Sleeper methods
+		ParameterData.initializeWorkspaceBehaviorSleeper(true);
+		ParameterData.initializeWorkspaceControlSleeper(true);
+		ParameterData.initializeCoderackBehaviorSleeper(true);
+		ParameterData.initializeCoderackControlSleeper(true);
+		ParameterData.initializeSlipnetBehaviorSleeper(true);
+		ParameterData.initializeSlipnetControlSleeper(true);
+
+		// Sleep time methods
+		ParameterData.initializeWorkspaceBehaviorSleepTime(chromosome
+				.getWorkspaceBehaviorSleepTime());
+
+		ParameterData.initializeWorkspaceControlSleepTime(chromosome
+				.getWorkspaceControlSleepTime());
+
+		ParameterData.initializeCoderackBehaviorSleepTime(chromosome
+				.getCoderackBehaviorSleepTime());
+
+		ParameterData.initializeCoderackControlSleepTime(chromosome
+				.getCoderackControlSleepTime());
+
+		ParameterData.initializeSlipnetBehaviorSleepTime(chromosome
+				.getSlipnetBehaviorSleepTime());
+
+		ParameterData.initializeSlipnetControlSleepTime(chromosome
+				.getSlipnetControlSleepTime());
+	}
    
    // --------------------------------------------------------------------------
    // Private Members
@@ -274,43 +169,43 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
    
    private void createCodeletPreformers(Chromosome chromosome)
    {
-      createCodelet(new PerformerBehaviorCodelet(RobotAction.FORWARD),
-         MOVE_FORWARD,
+      createCodelet(new PerformerBehaviorCodelet(RobotActionType.FORWARD),
+    	 BotcatChromosome.MOVE_FORWARD,
          100,
          1);
       
-      createCodelet(new PerformerBehaviorCodelet(RobotAction.FIRE),
-         FIRE,
+      createCodelet(new PerformerBehaviorCodelet(RobotActionType.FIRE),
+    	 BotcatChromosome.FIRE,
          100,
          1);
 
-      createCodelet(new PerformerBehaviorCodelet(RobotAction.DONT_MOVE),
-         DO_NOT_MOVE,
+      createCodelet(new PerformerBehaviorCodelet(RobotActionType.DONT_MOVE),
+         BotcatChromosome.DO_NOT_MOVE,
          100,
          1);
 
-      createCodelet(new PerformerBehaviorCodelet(RobotAction.BACKWARD),
-         MOVE_BACKWARD,
+      createCodelet(new PerformerBehaviorCodelet(RobotActionType.BACKWARD),
+    	 BotcatChromosome.MOVE_BACKWARD,
          100,
          1);
 
-      createCodelet(new PerformerBehaviorCodelet(RobotAction.TURN_RIGHT),
-         TURN_RIGHT,
+      createCodelet(new PerformerBehaviorCodelet(RobotActionType.TURN_RIGHT),
+    	 BotcatChromosome.TURN_RIGHT,
          100,
          1);
 
-      createCodelet(new PerformerBehaviorCodelet(RobotAction.TURN_LEFT),
-         TURN_LEFT,
+      createCodelet(new PerformerBehaviorCodelet(RobotActionType.TURN_LEFT),
+         BotcatChromosome.TURN_LEFT,
          100,
          1);
       
-      createCodelet(new PerformerBehaviorCodelet(RobotAction.TURN_TURRET_RIGHT),
-         TURN_TURRET_RIGHT,
+      createCodelet(new PerformerBehaviorCodelet(RobotActionType.TURN_TURRET_RIGHT),
+         BotcatChromosome.TURN_TURRET_RIGHT,
          100,
          1);
 
-      createCodelet(new PerformerBehaviorCodelet(RobotAction.TURN_TURRET_LEFT),
-         TURN_TURRET_LEFT,
+      createCodelet(new PerformerBehaviorCodelet(RobotActionType.TURN_TURRET_LEFT),
+         BotcatChromosome.TURN_TURRET_LEFT,
          100,
          1);
    }
@@ -327,8 +222,8 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
          100,
          100,
          1,
-         OBSTACLE_LEFT,
-         CLEAR_LEFT);
+         BotcatChromosome.OBSTACLE_LEFT,
+         BotcatChromosome.CLEAR_LEFT);
       createCodelet(new FuzzyObstacleBehaviorCodelet(
          FuzzyObstacleBehaviorCodelet.RIGHT, bufferDistance),
          OBSERVER,
@@ -336,8 +231,8 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
          100,
          100,
          1,
-         OBSTACLE_RIGHT,
-         CLEAR_RIGHT);
+         BotcatChromosome.OBSTACLE_RIGHT,
+         BotcatChromosome.CLEAR_RIGHT);
       createCodelet(new FuzzyObstacleBehaviorCodelet(
          FuzzyObstacleBehaviorCodelet.FORWARD, bufferDistance),
          OBSERVER,
@@ -345,8 +240,8 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
          100,
          100,
          1,
-         OBSTACLE_FRONT,
-         CLEAR_FOREWARD);
+         BotcatChromosome.OBSTACLE_FRONT,
+         BotcatChromosome.CLEAR_FOREWARD);
       createCodelet(new FuzzyObstacleBehaviorCodelet(
          FuzzyObstacleBehaviorCodelet.BACKWARD, bufferDistance),
          OBSERVER,
@@ -354,41 +249,69 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
          100,
          100,
          1,
-         OBSTACLE_BACKWARD,
-         CLEAR_BACKWARD);
+         BotcatChromosome.OBSTACLE_BACKWARD,
+         BotcatChromosome.CLEAR_BACKWARD);
     	      
       int targetDistance = chromosome.getTargetDistance();
       
-      // Target Observers      
-      createCodelet(new TargetObserverBehaviorCodelet(
-         TargetObserverBehaviorCodelet.LEFT, targetDistance),
-         OBSERVER,
-         1,
-         100,
-         1,
-         TARGET_LEFT);
-      createCodelet(new TargetObserverBehaviorCodelet(
-         TargetObserverBehaviorCodelet.RIGHT, targetDistance),
-         OBSERVER,
-         1,
-         100,
-         1,
-         TARGET_RIGHT);
+      // Target Observers
       createCodelet(new TargetObserverBehaviorCodelet(
          TargetObserverBehaviorCodelet.FORWARD, targetDistance),
          OBSERVER,
          1,
          100,
          1,
-         TARGET_FORWARD);
+         BotcatChromosome.TARGET_FORWARD);
+      createCodelet(new TargetObserverBehaviorCodelet(
+         TargetObserverBehaviorCodelet.FORWARD_RIGHT, targetDistance),
+         OBSERVER,
+         1,
+         100,
+         1,
+         BotcatChromosome.TARGET_FORWARD_RIGHT);
+      createCodelet(new TargetObserverBehaviorCodelet(
+         TargetObserverBehaviorCodelet.RIGHT, targetDistance),
+         OBSERVER,
+         1,
+         100,
+         1,
+         BotcatChromosome.TARGET_RIGHT);
+      createCodelet(new TargetObserverBehaviorCodelet(
+         TargetObserverBehaviorCodelet.BACKWARD_RIGHT, targetDistance),
+         OBSERVER,
+         1,
+         100,
+         1,
+         BotcatChromosome.TARGET_BACKWARD_RIGHT);
       createCodelet(new TargetObserverBehaviorCodelet(
          TargetObserverBehaviorCodelet.BACKWARD, targetDistance),
          OBSERVER,
          1,
          100,
          1,
-         TARGET_BACKWARD);
-      
+         BotcatChromosome.TARGET_BACKWARD);
+      createCodelet(new TargetObserverBehaviorCodelet(
+         TargetObserverBehaviorCodelet.BACKWARD_LEFT, targetDistance),
+         OBSERVER,
+         1,
+         100,
+         1,
+         BotcatChromosome.TARGET_BACKWARD_LEFT);
+      createCodelet(new TargetObserverBehaviorCodelet(
+         TargetObserverBehaviorCodelet.LEFT, targetDistance),
+         OBSERVER,
+         1,
+         100,
+         1,
+         BotcatChromosome.TARGET_LEFT);
+      createCodelet(new TargetObserverBehaviorCodelet(
+         TargetObserverBehaviorCodelet.FORWARD_LEFT, targetDistance),
+         OBSERVER,
+         1,
+         100,
+         1,
+         BotcatChromosome.TARGET_FORWARD_LEFT);
+
       int value0 = chromosome.getEnergyLevelPeg(0);
       int value1 = chromosome.getEnergyLevelPeg(1);
       int value2 = chromosome.getEnergyLevelPeg(2);
@@ -401,8 +324,8 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
          100,
          100,
          1,
-         ENERGY_LOW_NODE_NAME, 
-         ENERGY_HIGH_NODE_NAME);
+         BotcatChromosome.ENERGY_LOW_NODE_NAME, 
+         BotcatChromosome.ENERGY_HIGH_NODE_NAME);
       
       //Orientation
       createCodelet(new EastBodyOrientationObserverCodelet(),
@@ -410,49 +333,62 @@ public class RobocodeSlipnetBuilder extends SlipnetBuilder
          1,
          100,
          1,
-         ORIENTATION_EAST);
+         BotcatChromosome.ORIENTATION_EAST);
       createCodelet(new WestBodyOrientationObserverCodelet(),
          OBSERVER,
          1,
          100,
          1,
-         ORIENTATION_WEST);
+         BotcatChromosome.ORIENTATION_WEST);
       createCodelet(new NorthBodyOrientationObserverCodelet(),
          OBSERVER,
          1,
          100,
          1,
-         ORIENTATION_NORTH);
+         BotcatChromosome.ORIENTATION_NORTH);
       createCodelet(new SouthBodyOrientationObserverCodelet(),
          OBSERVER,
          1,
          100,
          1,
-         ORIENTATION_SOUTH);
+         BotcatChromosome.ORIENTATION_SOUTH);
       
       createCodelet(new RightTurretOrientationObserverCodelet(),
          OBSERVER,
          1,
          100,
          1,
-         TURRET_RIGHT);
+         BotcatChromosome.TURRET_RIGHT);
       createCodelet(new LeftTurretOrientationObserverCodelet(),
          OBSERVER,
          1,
          100,
          1,
-         TURRET_LEFT);
+         BotcatChromosome.TURRET_LEFT);
       createCodelet(new BackwardTurretOrientationObserverCodelet(),
          OBSERVER,
          1,
          100,
          1,
-         TURRET_BACKWARD);
+         BotcatChromosome.TURRET_BACKWARD);
       createCodelet(new ForwardTurretOrientationObserverCodelet(),
          OBSERVER,
          1,
          100,
          1,
-         TURRET_FORWARD);
+         BotcatChromosome.TURRET_FORWARD);
+      
+      int bulletAccuracySuccessOne = chromosome.getBulletAccuracySuccessOne();
+      int bulletAccuracyFailureOne = chromosome.getBulletAccuracyFailureOne();
+      
+      createCodelet(new BulletHitMissBehaviorCodlet(bulletAccuracySuccessOne,
+    		  bulletAccuracyFailureOne),
+    	OBSERVER,
+    	1,
+    	100,
+    	100,
+    	1,
+    	BotcatChromosome.BULLET_HIT,
+    	BotcatChromosome.BULLET_MISS);
    }
 }

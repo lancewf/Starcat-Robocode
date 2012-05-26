@@ -3,7 +3,7 @@ package org.robocode.genenticalgorithm.fitnesstest;
 import java.io.File;
 import java.util.List;
 
-import org.robocode.BotCatListener2;
+import org.robocode.BotCatListener;
 import org.robocode.genenticalgorithm.Individual;
 
 import robocode.BattleResults;
@@ -19,14 +19,14 @@ public class FitnessTest implements IFitnessTest
    // --------------------------------------------------------------------------
    
    public static String BOTCAT_NAME = "org.robocode.BotCat";
-   private BotCatListener2 listener;
+   private BotCatListener listener;
    private FitnessTestProperties fitnessTestProperties;
    
    // --------------------------------------------------------------------------
    // Constructor
    // --------------------------------------------------------------------------
    
-   public FitnessTest(BotCatListener2 listener)
+   public FitnessTest(BotCatListener listener)
    {
       this.listener = listener;
       this.fitnessTestProperties = new FitnessTestProperties();
@@ -46,30 +46,31 @@ public class FitnessTest implements IFitnessTest
       int score = getScore();
       
       individual.setFitnessScore(score);
+      
+      //to read back in any changes to the dna
+      individual.load(file);
    }
    
    // --------------------------------------------------------------------------
    // Private Members
    // --------------------------------------------------------------------------
    
-   private int getScore()
-   {
-	   BattleResults robotResults = listener.endResult();
-      
-      if(robotResults != null)
-      {
-         System.out.println("Score = " + robotResults.getScore() + 
-            " Bullet = " + robotResults.getBulletDamage() +
-            " Ram = " + robotResults.getRamDamage());
-      
-         return robotResults.getScore();
-      }
-      else
-      {
-         System.out.println("error in set Score the results was not found");
-         return 0;
-      }
-   }
+	private int getScore() {
+		BattleResults robotResults = listener.getRobotResults();
+
+		if (robotResults != null) {
+			int fitnessScore = robotResults.getScore();
+			System.out.println("Fitness = " + fitnessScore + " Total Score = "
+					+ robotResults.getScore() + " Bullet = "
+					+ robotResults.getBulletDamage() + " Ram = "
+					+ robotResults.getRamDamage());
+
+			return fitnessScore;
+		} else {
+			System.out.println("error in set Score the results was not found");
+			return 0;
+		}
+	}
    
    private void runBattle()
    {      
@@ -80,7 +81,7 @@ public class FitnessTest implements IFitnessTest
       
       RobocodeEngine engine = getEngine();
       
-      listener.engine_$eq(engine);
+      listener.setEngine(engine);
 
       RobotSpecification[] robots = getRobots(engine, fitnessTestProperties);
 

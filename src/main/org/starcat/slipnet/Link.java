@@ -8,7 +8,7 @@ import org.starcat.core.StarcatObject;
  * one direction. To represent a bi-directional Link, you must make two Links.
  * 
  */
-public abstract class Link implements Cloneable, StarcatObject {
+public class Link implements Cloneable, StarcatObject {
 	// -------------------------------------------------------------------------
 	// Private Data
 	// -------------------------------------------------------------------------
@@ -58,7 +58,7 @@ public abstract class Link implements Cloneable, StarcatObject {
 
 	/**
 	 * Get the intrinsic length is the natural length of the link The lower the
-	 * value of the length the more the activation that is transfered acrost the
+	 * value of the length the more the activation that is transfered across the
 	 * link.
 	 * 
 	 * All links have an intrinsic length, which can change for SlipLink
@@ -82,10 +82,10 @@ public abstract class Link implements Cloneable, StarcatObject {
 		return name;
 	}
 
-	public static LateralLink createIdentityLink(SlipnetNode node) {
+	public static Link createIdentityLink(SlipnetNode node) {
 		String name = "IndentityLink - " + node.getName();
 
-		return new LateralLink(name, 99, node, node);
+		return new Link(name, 99, node, node);
 	}
 
 	public double getDegreeOfAssociation() {

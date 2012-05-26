@@ -10,6 +10,8 @@ import org.robocode.genenticalgorithm.GenerationRunner;
 import org.robocode.genenticalgorithm.Individual;
 import org.robocode.genenticalgorithm.fitnesstest.FitnessTest;
 import org.robocode.genenticalgorithm.fitnesstest.IFitnessTest;
+import org.robocode.genenticalgorithm.fitnesstest.DummyFitnessTest;
+import org.robocode.genenticalgorithm.fitnesstest.InfightingFitnessTest;
 
 public class Factory
 {
@@ -35,9 +37,10 @@ public class Factory
       
       Individual initialIndividual = new Individual(initialChromosome);
 
-      BotCatListener2 listener = new BotCatListener2();
+      BotCatListener listener = new BotCatListener();
 
-      IFitnessTest test = new FitnessTest(listener);
+      IFitnessTest test = new InfightingFitnessTest(listener);
+//      IFitnessTest test = new DummyFitnessTest();
 
       GenenticAlgorithm genenticAlgorithm = new GenenticAlgorithm(
          INITIAL_POPULATION_SIZE, test, initialIndividual);

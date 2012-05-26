@@ -1,6 +1,7 @@
 package org.robocode.codelets;
 
 import org.robocode.BotCatable;
+import org.robocode.RobotUtilities;
 import org.robocode.workspace.RobocodeWorkspace;
 import org.starcat.codelets.FuzzyBehaviorCodelet;
 import org.starcat.workspace.Workspace;
@@ -51,12 +52,7 @@ extends FuzzyBehaviorCodelet
          RobocodeWorkspace robocodeWorkspace = (RobocodeWorkspace) workspace;
          BotCatable robot = robocodeWorkspace.getRobot();
 
-         double bearing = robot.getGunHeading() - robot.getHeading();
-         
-         if(bearing < 0)
-         {
-            bearing = 360 - bearing;
-         }
+         double bearing = RobotUtilities.getTurretHeadingFromFront(robot);
 
          setCrispValue(bearing);
       }

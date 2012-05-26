@@ -22,20 +22,6 @@ public abstract class Codelet implements Keyable, Cloneable, StarcatObject {
 	private PublicStarcatObject sObjDelegate = new PublicStarcatObject(this);
 
 	private double urgency;
-
-	// -----------------------------------------------------------------------------
-	// Constructor
-	// -----------------------------------------------------------------------------
-
-	public Codelet() {
-		//
-		// Do nothing
-		//
-	}
-
-	public Codelet(double urgency) {
-		this.urgency = urgency;
-	}
 	
 	// -----------------------------------------------------------------------------
 	// Abstract Members

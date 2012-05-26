@@ -14,9 +14,22 @@ public class RobotUtilities {
 	}
 
 	public static double distanceToTank(Tank tank, double x1, double y1) {
-		double deltaX = tank.x() - x1;
-		double deltaY = tank.y() - y1;
+		double deltaX = tank.getX() - x1;
+		double deltaY = tank.getY() - y1;
 		return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+	}
+	
+	public static double getTurretHeadingFromFront(BotCatable robot) {
+		double gunHeading = robot.getGunHeading();
+		double bodyHeading = robot.getHeading();
+		
+		double bearing = gunHeading - bodyHeading;
+
+        if(bearing < 0)
+        {
+           bearing = 360 + bearing;
+        }
+	    return bearing;
 	}
 
 	public static double findDistanceToWall(BotCatable robot,
@@ -127,7 +140,7 @@ public class RobotUtilities {
 
 			double tempDistance = distanceToTank(tank, x, y);
 
-			double tankWidth = 50;
+			double tankWidth = 100;
 			double tankHalfWidth = tankWidth / 2.0;
 			tempDistance -= tankHalfWidth;
 
@@ -149,8 +162,8 @@ public class RobotUtilities {
 	// -------------------------------------------------------------------------
 
 	private static double bearingToTankRadian(Tank tank, double x1, double y1) {
-		double deltaX = tank.x() - x1;
-		double deltaY = tank.y() - y1;
+		double deltaX = tank.getX() - x1;
+		double deltaY = tank.getY() - y1;
 		double distanceAway = distanceToTank(tank, x1, y1);
 		if (deltaX == 0)
 			return 0;

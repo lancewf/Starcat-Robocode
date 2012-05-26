@@ -10,89 +10,62 @@ import org.starcat.slipnet.Slipnet;
 import org.starcat.slipnet.SlipnetNode;
 
 public abstract class SlipnetBuilder {
-	// -----------------------------------------------------------------------------
-	// #region Public Members
-	// -----------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	//  Public Members
+	// -------------------------------------------------------------------------
 
 	private Slipnet slipnet = new Slipnet();
-	private SlipnetLinkConfiguration slipnetLinkConfiguration = null;
-	private SystemConfiguration systemConfiguration = new SystemConfiguration();
-	private CodeletConfiguration codeletConfiguration = null;
-
-	// -----------------------------------------------------------------------------
-	// Constructor
-	// -----------------------------------------------------------------------------
-
-	public SlipnetBuilder() {
-		this.slipnetLinkConfiguration = new SlipnetLinkConfiguration(slipnet);
-		this.codeletConfiguration = new CodeletConfiguration(slipnet);
-	}
+	private SlipnetLinkBuilder slipnetLinkBuilder = new SlipnetLinkBuilder(slipnet);
+	private CodeletBuilder codeletBuilder = new CodeletBuilder(slipnet);
 	
-	// -----------------------------------------------------------------------------
-	// #region Public Members
-	// -----------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Public Members
+	// -------------------------------------------------------------------------
 
 	public Slipnet buildSlipnet(Chromosome chromosome){
-		List<String> slipnetNodeNames = getSlipnetNodeList(chromosome);
-		initializeSystemConfigurations(systemConfiguration, chromosome);
-		createSlipnetNodes(chromosome, slipnetNodeNames);
-		createLinks(chromosome, slipnetNodeNames);
+		initializeSystemConfigurations(chromosome);
+		createSlipnetNodes(chromosome);
+		createLinks(chromosome);
 		createCodelets(chromosome);
 		
 		return slipnet;
 	}
 
-	// -----------------------------------------------------------------------------
-	// #region Protected Abstract Members
-	// -----------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Protected Abstract Members
+	// -------------------------------------------------------------------------
 
-	protected abstract List<String> getSlipnetNodeList(Chromosome chromosome);
+	protected abstract void initializeSystemConfigurations(Chromosome chromosome);
 
-	protected abstract void initializeSystemConfigurations(
-			SystemConfiguration systemConfiguration, Chromosome chromosome);
+	protected abstract void createSlipnetNodes(Chromosome chromosome);
 
-	protected abstract void createSlipnetNodes(Chromosome chromosome,
-			List<String> slipnetNodeNames);
-
-	protected abstract void createLinks(Chromosome chromosome,
-			List<String> slipnetNodeNames);
+	protected abstract void createLinks(Chromosome chromosome);
 
 	protected abstract void createCodelets(Chromosome chromosome);
 
-	// #endregion
-
-	// -----------------------------------------------------------------------------
-	// #region Protected Members
-	// -----------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Protected Members
+	// -------------------------------------------------------------------------
 
 	/**
 	 * Create a codelet
 	 * 
 	 * @param codeletBeingConstructed
 	 *            the codelet being constructed
-	 * @param name
-	 *            the name of the codelet
 	 * @param sourceNode
 	 *            the slipnet node associated to the codelet
 	 * @param urgency
 	 *            The urgency group to assign to the codelet in the coderack.
 	 *            the higher the urgency the more likely that it gets chosen in
 	 *            the coderack
-	 * @param succAmount
-	 *            the amount to add to the slipnet node if the codelet succeeds
-	 * @param failureAmount
-	 *            the amount to add to the slipnet node if the codelet fails
-	 * @param numberToEmit
-	 *            The number of codelets clones to emit to the coderack when
-	 *            activated
 	 */
 	protected void createCodelet(BehaviorCodelet codeletBeingConstructed,
 			String sourceNode, double urgency, int numberToEmit) {
-		codeletConfiguration.setClass(codeletBeingConstructed);
-		codeletConfiguration.setName(UUID.randomUUID().toString());
-		codeletConfiguration.setSourceNode(sourceNode);
-		codeletConfiguration.setUrgency(urgency);
-		codeletConfiguration.setNumberToEmit(numberToEmit);
+		codeletBuilder.setColeletBeingConstructed(codeletBeingConstructed);
+		codeletBuilder.setName(UUID.randomUUID().toString());
+		codeletBuilder.setSourceNode(sourceNode);
+		codeletBuilder.setUrgency(urgency);
+		codeletBuilder.setNumberToEmit(numberToEmit);
 	}
 
 	/**
@@ -126,14 +99,14 @@ public abstract class SlipnetBuilder {
 			String sourceNode, double urgency, int succAmount,
 			int failureAmount, int numberToEmit, String successActivatorName,
 			String failureActivatorName) {
-		codeletConfiguration.setClass(codeletBeingConstructed);
-		codeletConfiguration.setName(UUID.randomUUID().toString());
-		codeletConfiguration.setSourceNode(sourceNode);
-		codeletConfiguration.setUrgency(urgency);
-		codeletConfiguration.setNumberToEmit(numberToEmit);
-		codeletConfiguration.addSuccessActivator(successActivatorName,
+		codeletBuilder.setColeletBeingConstructed(codeletBeingConstructed);
+		codeletBuilder.setName(UUID.randomUUID().toString());
+		codeletBuilder.setSourceNode(sourceNode);
+		codeletBuilder.setUrgency(urgency);
+		codeletBuilder.setNumberToEmit(numberToEmit);
+		codeletBuilder.addSuccessActivator(successActivatorName,
 				succAmount);
-		codeletConfiguration.addFailureActivator(failureActivatorName,
+		codeletBuilder.addFailureActivator(failureActivatorName,
 				failureAmount);
 	}
 
@@ -142,8 +115,6 @@ public abstract class SlipnetBuilder {
 	 * 
 	 * @param codeletBeingConstructed
 	 *            the codelet being constructed
-	 * @param name
-	 *            the name of the codelet
 	 * @param sourceNode
 	 *            the Slipnet node associated to the codelet
 	 * @param urgency
@@ -164,12 +135,12 @@ public abstract class SlipnetBuilder {
 	protected void createCodelet(BehaviorCodelet codeletBeingConstructed,
 			String sourceNode, double urgency, int succAmount,
 			int numberToEmit, String successActivatorName) {
-		codeletConfiguration.setClass(codeletBeingConstructed);
-		codeletConfiguration.setName(UUID.randomUUID().toString());
-		codeletConfiguration.setSourceNode(sourceNode);
-		codeletConfiguration.setUrgency(urgency);
-		codeletConfiguration.setNumberToEmit(numberToEmit);
-		codeletConfiguration.addSuccessActivator(successActivatorName,
+		codeletBuilder.setColeletBeingConstructed(codeletBeingConstructed);
+		codeletBuilder.setName(UUID.randomUUID().toString());
+		codeletBuilder.setSourceNode(sourceNode);
+		codeletBuilder.setUrgency(urgency);
+		codeletBuilder.setNumberToEmit(numberToEmit);
+		codeletBuilder.addSuccessActivator(successActivatorName,
 				succAmount);
 	}
 
@@ -204,14 +175,14 @@ public abstract class SlipnetBuilder {
 			String name, String sourceNode, double urgency, int succAmount,
 			int failureAmount, int numberToEmit,
 			List<String> failureActivatorNames) {
-		codeletConfiguration.setClass(codeletBeingConstructed);
-		codeletConfiguration.setName(name);
-		codeletConfiguration.setSourceNode(sourceNode);
-		codeletConfiguration.setUrgency(urgency);
-		codeletConfiguration.setNumberToEmit(numberToEmit);
+		codeletBuilder.setColeletBeingConstructed(codeletBeingConstructed);
+		codeletBuilder.setName(name);
+		codeletBuilder.setSourceNode(sourceNode);
+		codeletBuilder.setUrgency(urgency);
+		codeletBuilder.setNumberToEmit(numberToEmit);
 
 		for (String failureActivatorName : failureActivatorNames) {
-			codeletConfiguration.addFailureActivator(failureActivatorName,
+			codeletBuilder.addFailureActivator(failureActivatorName,
 					failureAmount);
 		}
 	}
@@ -230,15 +201,17 @@ public abstract class SlipnetBuilder {
 	 *            receiver (to)
 	 * @param labelNode
 	 */
-	protected void createLink(Link linkBegingBuilt, String fromSlipnetNode,
+	protected void createLink(String fromSlipnetNode,
 			String toSlipnetNode, int intrinsicLength) {
+		Link linkBegingBuilt = new Link();
+		
 		String name = linkBegingBuilt.getClass().getName() + " - "
 				+ fromSlipnetNode + " -> " + toSlipnetNode;
-
-		slipnetLinkConfiguration.buildLink(linkBegingBuilt);
-		slipnetLinkConfiguration.setName(name);
-		slipnetLinkConfiguration.setIntrinsicLength(intrinsicLength);
-		slipnetLinkConfiguration.setNodes(fromSlipnetNode, toSlipnetNode);
+		
+		slipnetLinkBuilder.buildLink(linkBegingBuilt);
+		slipnetLinkBuilder.setName(name);
+		slipnetLinkBuilder.setIntrinsicLength(intrinsicLength);
+		slipnetLinkBuilder.setNodes(fromSlipnetNode, toSlipnetNode);
 	}
 
 	/**
@@ -246,21 +219,21 @@ public abstract class SlipnetBuilder {
 	 * 
 	 * @param name
 	 *            the name of the slipnet node
-	 * @param conceptualDepth
-	 *            the depth of abstraction. the higher the value the longer
+	 * @param memoryLevel
+	 *            The higher the value the longer
 	 *            memory is stored in the node.
 	 * @param initalActivation
 	 *            the initial activation value
 	 * @param activationThreashold
-	 *            the activation threshold to release a codelet
+	 *            This is the level that the slipnet has to be before it places 
+	 *            an assigned codelet into the coderack
 	 */
-	protected void createSlipnetNode(String name, int conceptualDepth,
+	protected void createSlipnetNode(String name, int memoryLevel,
 			int initalActivation, int activationThreashold) {
-		SlipnetNode newNode = new SlipnetNode(name, conceptualDepth, 
+		
+		SlipnetNode newNode = new SlipnetNode(name, memoryLevel, 
 				initalActivation, activationThreashold, 0);
 
 		slipnet.addSlipnetNode(newNode);
 	}
-
-	// #endregion
 }

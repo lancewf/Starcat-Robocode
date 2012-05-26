@@ -59,25 +59,9 @@ public abstract class BehaviorCodelet extends Codelet {
 
 	private String name;
 
-	private boolean workspaceSuccess;
+	private boolean workspaceSuccess = false;
 
 	private int numberToEmit;
-
-	// -----------------------------------------------------------------------------
-	// Constructor
-	// -----------------------------------------------------------------------------
-
-	public BehaviorCodelet() {}
-
-	public BehaviorCodelet(Double urgency) {
-		this(null, urgency);
-	}
-
-	public BehaviorCodelet(String name, Double urgency) {
-		super(urgency);
-		this.name = name;
-		this.workspaceSuccess = false;
-	}
 	
 	// -----------------------------------------------------------------------------
 	// Public Members

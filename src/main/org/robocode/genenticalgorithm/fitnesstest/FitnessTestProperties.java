@@ -21,6 +21,7 @@ public class FitnessTestProperties
    private static final String BATTLEFIELD_HEIGHT = "battlefieldHeight";
    private static final String INACTIVITY_TIME = "inactivityTime";
    private static final String BOTCAT_PROPERTIES_PATH = "botcatPropertiesPath";
+   private static final String BOTCAT_2_PROPERTIES_PATH = "botcat2PropertiesPath";
    
    // #endregion
    
@@ -127,10 +128,13 @@ public class FitnessTestProperties
 	   return properties.getProperty(BOTCAT_PROPERTIES_PATH);
    }
    
+   public String getBotCat2PropertiesPath()
+   {
+	   return properties.getProperty(BOTCAT_2_PROPERTIES_PATH);
+   }
+   
    public void dispose()
    {
       properties = null;
    }
-   
-   // #endregion
 }

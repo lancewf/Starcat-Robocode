@@ -77,6 +77,10 @@ public class Individual implements Comparable<Individual>
       this.relativeFitness = relativeFitness;
    }
    
+   public void load(File file){
+	   chromosome.load(file);
+   }
+   
    public void save(File file)
    {  
       OutputStream outputStream = null;

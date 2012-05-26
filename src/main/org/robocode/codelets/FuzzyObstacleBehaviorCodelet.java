@@ -55,7 +55,7 @@ public class FuzzyObstacleBehaviorCodelet extends FuzzyBehaviorCodelet {
 	public FuzzyObstacleBehaviorCodelet(double headingToLook, int bufferDistance) {
 		this.bufferDistance = bufferDistance;
 
-		setSuccessMinimumZeroValueX(Double.MIN_VALUE);
+		setSuccessMinimumZeroValueX(0);
 		setSuccessOneValueX(getHalfBufferDistance());
 		setSuccessMaximumZeroValueX(getOneHalfBufferDistance());
 
