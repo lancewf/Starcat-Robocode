@@ -1,0 +1,1 @@
+java -Xmx512M -Dsun.io.useCanonCaches=false -DNOSECURITY=true -cp libs/robocode.jar:libs/codesize-1.1.jar:/usr/share/scala/lib/scala-library.jar:libs/botcat.jar org.robocode.Factory  "bestAgent.properties"
